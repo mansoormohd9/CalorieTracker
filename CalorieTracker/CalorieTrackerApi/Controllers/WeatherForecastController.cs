@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace CalorieTrackerApi.Controllers
 {
     [ApiController]
+    [ApiAuthorizationRequired]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
@@ -26,7 +27,6 @@ namespace CalorieTrackerApi.Controllers
         }
 
         [HttpGet]
-        [ApiAuthorizationRequired]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
