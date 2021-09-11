@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CalorieTrackerApi.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,7 @@ namespace CalorieTrackerApi.Controllers
         }
 
         [HttpGet]
+        [ApiAuthorizationRequired]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
