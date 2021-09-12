@@ -9,5 +9,6 @@ namespace CalorieTrackerApi.Dtos
     {
         public string UserName { get; set; }
         public bool IsAdmin { get; set; }
+        public ICollection<FoodEntryDto> FoodEntries { get; set; }
     }
 }

@@ -63,13 +63,13 @@ namespace CalorieTrackerApi.Controllers
         }
 
         // PUT api/<UsersController>/5
-        [HttpPut("{userName}")]
-        public IActionResult Put(string userName, [FromBody] UserDto value)
+        [HttpPut]
+        public IActionResult Put([FromBody] UserDto user)
         {
             IActionResult result = null;
             try
             {
-                _userService.UpdateUser();
+                _userService.UpdateUser(_mapper.Map<User>(user));
             }
             catch (Exception ex)
             {
@@ -85,6 +85,7 @@ namespace CalorieTrackerApi.Controllers
         [HttpDelete("{userName}")]
         public void Delete(string userName)
         {
+
         }
     }
 }

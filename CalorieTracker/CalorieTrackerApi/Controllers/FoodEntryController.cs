@@ -33,18 +33,18 @@ namespace CalorieTrackerApi.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            return "foodEntryDto";
         }
 
         // POST api/<FoodEntryController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] string foodEntryDto)
         {
         }
 
         // PUT api/<FoodEntryController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public void Put([FromBody] string foodEntryDto)
         {
         }
 

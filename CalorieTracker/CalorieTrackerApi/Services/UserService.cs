@@ -23,7 +23,12 @@ namespace CalorieTrackerApi.Services
 
         public (bool, string) CreateUser(User user)
         {
-            throw new NotImplementedException();
+            return _userRepo.CreateUser(user);
+        }
+
+        public (bool, string) DeleteUser(string userName)
+        {
+            return _userRepo.DeleteUser(userName);
         }
 
         public UserDto GetUser(string userName)
@@ -34,12 +39,13 @@ namespace CalorieTrackerApi.Services
 
         public List<UserDto> GetUsers()
         {
-            throw new NotImplementedException();
+            var users = _userRepo.GetUsers();
+            return _mapper.Map<List<UserDto>>(users);
         }
 
-        public (bool, string) UpdateUser()
+        public (bool, string) UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            return _userRepo.UpdateUser(user);
         }
     }
 }
