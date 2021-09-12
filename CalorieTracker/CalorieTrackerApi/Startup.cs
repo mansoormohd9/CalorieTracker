@@ -1,5 +1,7 @@
 using CalorieTrackerApi.Authentication;
 using CalorieTrackerApi.Data;
+using CalorieTrackerApi.Services;
+using CalorieTrackerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -48,6 +50,10 @@ namespace CalorieTrackerApi
 
             services.AddDbContext<CalorieTrackerDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFoodEntryService, FoodEntryService>();
+            services.AddScoped<ITokenService, TokenService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -20,7 +20,7 @@ namespace CalorieTrackerApi.Data
                 return;   // DB has been seeded
             }
 
-            var user = new User { UserName = "mansoormohd" };
+            var user = new User { UserName = "mansoormohd", IsAdmin = true };
             context.Users.Add(user);
             context.SaveChanges();          
         }
