@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CalorieTrackerApi.Services.Interfaces
 {
-    public class ITokenService
+    public interface ITokenService
     {
     }
 }
