@@ -1,5 +1,7 @@
+using AutoMapper;
 using CalorieTrackerApi.Authentication;
 using CalorieTrackerApi.Data;
+using CalorieTrackerApi.Mappings;
 using CalorieTrackerApi.Repositories;
 using CalorieTrackerApi.Repositories.Interfaces;
 using CalorieTrackerApi.Services;
@@ -62,6 +64,8 @@ namespace CalorieTrackerApi
             services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<IFoodEntryRepo, FoodEntryRepo>();
             services.AddScoped<ITokenRepo, TokenRepo>();
+
+            services.AddAutoMapper(typeof(MappingProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

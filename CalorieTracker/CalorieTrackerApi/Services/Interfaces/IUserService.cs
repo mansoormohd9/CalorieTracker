@@ -1,4 +1,5 @@
 ﻿using CalorieTrackerApi.Dtos;
+using CalorieTrackerApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace CalorieTrackerApi.Services.Interfaces
     {
         List<UserDto> GetUsers();
 
-        UserDto GetUser();
+        UserDto GetUser(string userName);
 
-        (bool, string) CreateUser();
+        (bool, string) CreateUser(User user);
 
         (bool, string) UpdateUser();
     }

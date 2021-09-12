@@ -1,4 +1,6 @@
-﻿using CalorieTrackerApi.Dtos;
+﻿using AutoMapper;
+using CalorieTrackerApi.Dtos;
+using CalorieTrackerApi.Models;
 using CalorieTrackerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,11 +20,13 @@ namespace CalorieTrackerApi.Controllers
     {
         private readonly IUserService _userService;
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
                                                    
-        public UserController(ILogger<UserController> logger,IUserService userService)
+        public UserController(ILogger<UserController> logger,IUserService userService, IMapper mapper)
         {
             _logger = logger;
             _userService = userService;
+            _mapper = mapper;
         }
 
         // GET: api/<UsersController>
@@ -36,17 +40,17 @@ namespace CalorieTrackerApi.Controllers
         [HttpGet("{userName}")]
         public UserDto Get(string userName)
         {
-            return _userService.GetUser();
+            return _userService.GetUser(userName);
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public IActionResult Post([FromBody] UserDto value)
+        public IActionResult Post([FromBody] UserDto user)
         {
             IActionResult result = null;
             try
             {
-                _userService.CreateUser();
+                _userService.CreateUser(_mapper.Map<User>(user));
             }
             catch (Exception ex)
             {

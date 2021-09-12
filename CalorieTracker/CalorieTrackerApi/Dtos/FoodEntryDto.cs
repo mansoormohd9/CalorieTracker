@@ -7,5 +7,9 @@ namespace CalorieTrackerApi.Dtos
 {
     public class FoodEntryDto
     {
+        public string Name { get; set; }
+        public int Calories { get; set; }
+        public DateTime Date { get; set; }
+        public Guid Guid { get; set; }
     }
 }

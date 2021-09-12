@@ -1,4 +1,5 @@
 ﻿using CalorieTrackerApi.Data;
+using CalorieTrackerApi.Models;
 using CalorieTrackerApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,6 +16,14 @@ namespace CalorieTrackerApi.Repositories
         public UserRepo(IDbContextFactory<CalorieTrackerDbContext> contextFactory)
         {
             _contextFactory = contextFactory;
+        }
+
+        public User GetUser(string userName)
+        {
+            using(var context = _contextFactory.CreateDbContext())
+            {
+                return context.Users.FirstOrDefault(x => x.UserName == userName);
+            }
         }
     }
 }

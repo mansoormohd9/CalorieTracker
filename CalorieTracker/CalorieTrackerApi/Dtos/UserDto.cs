@@ -7,5 +7,7 @@ namespace CalorieTrackerApi.Dtos
 {
     public class UserDto
     {
+        public string UserName { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

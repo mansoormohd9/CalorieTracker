@@ -1,4 +1,7 @@
-﻿using CalorieTrackerApi.Dtos;
+﻿using AutoMapper;
+using CalorieTrackerApi.Dtos;
+using CalorieTrackerApi.Models;
+using CalorieTrackerApi.Repositories.Interfaces;
 using CalorieTrackerApi.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,14 +12,24 @@ namespace CalorieTrackerApi.Services
 {
     public class UserService : IUserService
     {
-        public (bool, string) CreateUser()
+        private readonly IUserRepo _userRepo;
+        private readonly IMapper _mapper;
+
+        public UserService(IUserRepo userRepo, IMapper mapper)
+        {
+            _userRepo = userRepo;
+            _mapper = mapper;
+        }
+
+        public (bool, string) CreateUser(User user)
         {
             throw new NotImplementedException();
         }
 
-        public UserDto GetUser()
+        public UserDto GetUser(string userName)
         {
-            throw new NotImplementedException();
+            var user = _userRepo.GetUser(userName);
+            return _mapper.Map<UserDto>(user);
         }
 
         public List<UserDto> GetUsers()
