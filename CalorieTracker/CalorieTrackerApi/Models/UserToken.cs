@@ -14,9 +14,10 @@ namespace CalorieTrackerApi.Models
         public string IpAddress { get; set; }
         public DateTime Expiry { get; set; }
         public DateTime LastLogin { get; set; }
-        public int UserId { get; set; }
 
-        [ForeignKey("UserId")]
+        [ForeignKey("User"), DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int UserId { get; set; }
+        
         public User User { get; set; }
     }
 }

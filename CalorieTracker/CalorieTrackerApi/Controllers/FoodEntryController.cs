@@ -34,21 +34,21 @@ namespace CalorieTrackerApi.Controllers
 
         // GET: api/<FoodEntryController>
         [HttpGet]
-        public IEnumerable<FoodEntryDto> Get()
+        public IEnumerable<CreateFoodEntryDto> Get()
         {
             return _foodEntryService.GetFoodEntries(Utils.GetUsernameFromContext(HttpContext));
         }
 
         // GET api/<FoodEntryController>/5
         [HttpGet("{guid}")]
-        public FoodEntryDto Get(Guid guid)
+        public CreateFoodEntryDto Get(Guid guid)
         {
             return _foodEntryService.GetFoodEntry(Utils.GetUsernameFromContext(HttpContext), guid);
         }
 
         // POST api/<FoodEntryController>
         [HttpPost]
-        public IActionResult Post([FromBody] FoodEntryDto foodEntryDto)
+        public IActionResult Post([FromBody] CreateFoodEntryDto foodEntryDto)
         {
             IActionResult result = Ok();
             try
@@ -67,7 +67,7 @@ namespace CalorieTrackerApi.Controllers
 
         // PUT api/<FoodEntryController>/5
         [HttpPut]
-        public IActionResult Put([FromBody] FoodEntryDto foodEntryDto)
+        public IActionResult Put([FromBody] CreateFoodEntryDto foodEntryDto)
         {
             IActionResult result = Ok();
             try

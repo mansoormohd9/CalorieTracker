@@ -31,16 +31,16 @@ namespace CalorieTrackerApi.Services
             return _foodEntryRepo.DeleteFoodEntry(userName, guid);
         }
 
-        public List<FoodEntryDto> GetFoodEntries(string userName)
+        public List<CreateFoodEntryDto> GetFoodEntries(string userName)
         {
             var foodEntries = _foodEntryRepo.GetFoodEntries(userName);
-            return _mapper.Map<List<FoodEntryDto>>(foodEntries);
+            return _mapper.Map<List<CreateFoodEntryDto>>(foodEntries);
         }
 
-        public FoodEntryDto GetFoodEntry(string userName, Guid guid)
+        public CreateFoodEntryDto GetFoodEntry(string userName, Guid guid)
         {
             var foodEntry = _foodEntryRepo.GetFoodEntry(userName, guid);
-            return _mapper.Map<FoodEntryDto>(foodEntry);
+            return _mapper.Map<CreateFoodEntryDto>(foodEntry);
         }
 
         public (bool, string) UpdateFoodEntry(string userName, FoodEntry foodEntry)
