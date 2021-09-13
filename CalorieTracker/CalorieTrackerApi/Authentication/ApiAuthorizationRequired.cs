@@ -15,7 +15,7 @@ namespace CalorieTrackerApi.Authentication
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            Trace.WriteLine(string.Format("Action Method {0} executing at {1}", context.ActionDescriptor.DisplayName, DateTime.Now.ToShortDateString()), "Web API Logs");
+            
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
@@ -46,10 +46,7 @@ namespace CalorieTrackerApi.Authentication
             if (string.IsNullOrEmpty(_httpContextAccessor.HttpContext.Session.GetString(sessionKey)))
             {
                 _httpContextAccessor.HttpContext.Session.SetString(sessionKey, userToken.User.UserName);
-            }
-            var test = _httpContextAccessor.HttpContext.Session.GetString(sessionKey);
-
-            Trace.WriteLine(string.Format("Action Method {0} executing at {1}", context.ActionDescriptor.DisplayName, DateTime.Now.ToShortDateString()), "Web API Logs");            
+            }           
         }
     }
 }

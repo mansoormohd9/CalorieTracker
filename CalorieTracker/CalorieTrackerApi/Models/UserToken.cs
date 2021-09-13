@@ -8,6 +8,7 @@ namespace CalorieTrackerApi.Models
 {
     public class UserToken
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public Guid Token { get; set; }
         public string IpAddress { get; set; }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
+using CalorieTrackerApi.Authentication;
 using CalorieTrackerApi.Dtos;
-using CalorieTrackerApi.Helpers;
-using CalorieTrackerApi.Models;
 using CalorieTrackerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -32,6 +31,7 @@ namespace CalorieTrackerApi.Controllers
 
         // GET: api/<TokenController>
         [HttpGet]
+        [AdminAccessRequired]
         public IEnumerable<TokenDto> Get()
         {
             return _tokenService.GetUserTokens();
@@ -46,12 +46,12 @@ namespace CalorieTrackerApi.Controllers
 
         // POST api/<TokenController>
         [HttpPost]
-        public IActionResult Post([FromBody] string tokenDto)
+        public IActionResult Post([FromBody] CreateTokenDto tokenDto)
         {
             IActionResult result = Ok();
             try
             {
-                _tokenService.CreateUserToken(Utils.GetUsernameFromContext(HttpContext), _mapper.Map<UserToken>(tokenDto));
+                _tokenService.CreateUserToken(tokenDto);
             }
             catch (Exception ex)
             {
@@ -65,12 +65,12 @@ namespace CalorieTrackerApi.Controllers
 
         // PUT api/<TokenController>/5
         [HttpPut]
-        public IActionResult Put([FromBody] string tokenDto)
+        public IActionResult Put([FromBody] CreateTokenDto tokenDto)
         {
             IActionResult result = Ok();
             try
             {
-                _tokenService.RefreshUserToken(Utils.GetUsernameFromContext(HttpContext), _mapper.Map<UserToken>(tokenDto));
+                _tokenService.RefreshUserToken(tokenDto);
             }
             catch (Exception ex)
             {
@@ -84,6 +84,7 @@ namespace CalorieTrackerApi.Controllers
 
         // DELETE api/<TokenController>/5
         [HttpDelete("{guid}")]
+        [AdminAccessRequired]
         public IActionResult Delete(Guid guid)
         {
             IActionResult result = Ok();

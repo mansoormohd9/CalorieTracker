@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CalorieTrackerApi.Authentication;
 using CalorieTrackerApi.Dtos;
 using CalorieTrackerApi.Helpers;
 using CalorieTrackerApi.Models;
@@ -65,6 +66,7 @@ namespace CalorieTrackerApi.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut]
+        [AdminAccessRequired]
         public IActionResult Put([FromBody] UserDto user)
         {
             IActionResult result = Ok();
@@ -84,6 +86,7 @@ namespace CalorieTrackerApi.Controllers
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{userName}")]
+        [AdminAccessRequired]
         public IActionResult Delete(string userName)
         {
             IActionResult result = Ok();

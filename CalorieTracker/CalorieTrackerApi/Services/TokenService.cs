@@ -13,17 +13,24 @@ namespace CalorieTrackerApi.Services
     public class TokenService: ITokenService
     {
         private readonly ITokenRepo _tokenRepo;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public TokenService(ITokenRepo tokenRepo, IMapper mapper)
+        public TokenService(ITokenRepo tokenRepo, IMapper mapper, IUserService userService)
         {
             _tokenRepo = tokenRepo;
             _mapper = mapper;
+            _userService = userService;
         }
 
-        public (bool, string) CreateUserToken(string userName, UserToken userToken)
+        public (bool, string) CreateUserToken(CreateTokenDto userToken)
         {
-            return _tokenRepo.CreateUserToken(userName, userToken);
+            var userExists = _userService.GetUser(userToken.UserName);
+            if(userExists == null)
+            {
+                return (false, "User doesn't exists");
+            }
+            return _tokenRepo.CreateUserToken(userToken.UserName, _mapper.Map<UserToken>(userToken));
         }
 
         public (bool, string) DeleteUserToken(Guid guid)
@@ -43,9 +50,14 @@ namespace CalorieTrackerApi.Services
             return _mapper.Map<TokenDto>(userToken);
         }
 
-        public (bool, string) RefreshUserToken(string userName, UserToken userToken)
+        public (bool, string) RefreshUserToken(CreateTokenDto userToken)
         {
-            return _tokenRepo.RefreshUserToken(userName, userToken);
+            var userExists = _userService.GetUser(userToken.UserName);
+            if (userExists == null)
+            {
+                return (false, "User doesn't exists");
+            }
+            return _tokenRepo.RefreshUserToken(userToken.UserName, _mapper.Map<UserToken>(userToken));
         }
     }
 }

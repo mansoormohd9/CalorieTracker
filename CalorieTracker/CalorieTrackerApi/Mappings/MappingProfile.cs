@@ -27,7 +27,8 @@ namespace CalorieTrackerApi.Mappings
                 .ForMember(dest => dest.Token, opt => opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(dest => dest.Expiry, opt => opt.MapFrom(src => DateTime.UtcNow.AddHours(Constants.Constants.TokenExpiry * 60)))
                 .ForMember(dest => dest.IpAddress, opt => opt.MapFrom<IPAddressResolver>())
-                .ForMember(dest => dest.User, opt => opt.MapFrom<UserResolver>());
+                .ForMember(dest => dest.User, opt => opt.MapFrom<UserResolver>())
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom<UserIdResolver>());
             CreateMap<TokenDto, UserToken>();
         }
     }
@@ -68,6 +69,31 @@ namespace CalorieTrackerApi.Mappings
                 //creating new user
                 _ = _userRepo.CreateUser(new User { UserName = source.UserName, IsAdmin = false });
                 return _userRepo.GetUser(source.UserName);
+            }
+        }
+    }
+
+    public class UserIdResolver : IValueResolver<CreateTokenDto, UserToken, int>
+    {
+        private IUserRepo _userRepo;
+
+        public UserIdResolver(IUserRepo userRepo)
+        {
+            _userRepo = userRepo;
+        }
+
+        public int Resolve(CreateTokenDto source, UserToken destination, int destMember, ResolutionContext context)
+        {
+            var user = _userRepo.GetUser(source.UserName);
+            if (user != null)
+            {
+                return user.ID;
+            }
+            else
+            {
+                //creating new user
+                _ = _userRepo.CreateUser(new User { UserName = source.UserName, IsAdmin = false });
+                return _userRepo.GetUser(source.UserName).ID;
             }
         }
     }

@@ -48,7 +48,7 @@ namespace CalorieTrackerApi.Controllers
 
         // POST api/<FoodEntryController>
         [HttpPost]
-        public IActionResult Post([FromBody] string foodEntryDto)
+        public IActionResult Post([FromBody] FoodEntryDto foodEntryDto)
         {
             IActionResult result = Ok();
             try
@@ -67,7 +67,7 @@ namespace CalorieTrackerApi.Controllers
 
         // PUT api/<FoodEntryController>/5
         [HttpPut]
-        public IActionResult Put([FromBody] string foodEntryDto)
+        public IActionResult Put([FromBody] FoodEntryDto foodEntryDto)
         {
             IActionResult result = Ok();
             try
