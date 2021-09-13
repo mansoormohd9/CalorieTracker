@@ -23,6 +23,10 @@ namespace CalorieTrackerApi.Repositories
         {
             using (var context = _contextFactory.CreateDbContext())
             {
+                var userTokens = context.UserTokens.Include(x => x.User).Where(x => x.User.UserName == userName);
+                context.UserTokens.RemoveRange(userTokens);
+                context.SaveChanges();
+
                 context.UserTokens.Add(userToken);
                 context.SaveChanges();
                 return (true, "User Token added");
@@ -44,7 +48,7 @@ namespace CalorieTrackerApi.Repositories
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                return context.UserTokens.ToList();
+                return context.UserTokens.Include(x => x.User).ToList();
             }
         }
 
@@ -52,7 +56,7 @@ namespace CalorieTrackerApi.Repositories
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                var userToken = context.UserTokens.FirstOrDefault(x => x.Token == guid);
+                var userToken = context.UserTokens.Include(x => x.User).FirstOrDefault(x => x.Token == guid);
                 return userToken;
             }
         }

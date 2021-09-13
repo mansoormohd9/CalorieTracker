@@ -51,7 +51,11 @@ namespace CalorieTrackerApi.Controllers
             IActionResult result = Ok();
             try
             {
-                _tokenService.CreateUserToken(tokenDto);
+                var actResult = _tokenService.CreateUserToken(tokenDto);
+                if (!actResult.Item1)
+                {
+                    return BadRequest(actResult.Item2);
+                }
             }
             catch (Exception ex)
             {
@@ -70,7 +74,11 @@ namespace CalorieTrackerApi.Controllers
             IActionResult result = Ok();
             try
             {
-                _tokenService.RefreshUserToken(tokenDto);
+                var actResult = _tokenService.RefreshUserToken(tokenDto);
+                if (!actResult.Item1)
+                {
+                    return BadRequest(actResult.Item2);
+                }
             }
             catch (Exception ex)
             {
@@ -90,7 +98,11 @@ namespace CalorieTrackerApi.Controllers
             IActionResult result = Ok();
             try
             {
-                _tokenService.DeleteUserToken(guid);
+                var actResult = _tokenService.DeleteUserToken(guid);
+                if (!actResult.Item1)
+                {
+                    return BadRequest(actResult.Item2);
+                }
             }
             catch (Exception ex)
             {

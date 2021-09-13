@@ -44,7 +44,7 @@ namespace CalorieTrackerApi.Authentication
 
             if (!userToken.User.IsAdmin)
             {
-                context.Result = new UnauthorizedObjectResult("Api Key is expired");
+                context.Result = new UnauthorizedObjectResult("Admin access is required");
                 return;
             }
 

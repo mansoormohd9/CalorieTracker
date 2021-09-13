@@ -11,5 +11,6 @@ namespace CalorieTrackerApi.Dtos
         public string IpAddress { get; set; }
         public DateTime Expiry { get; set; }
         public DateTime LastLogin { get; set; }
+        public string UserName { get; set; }
     }
 }

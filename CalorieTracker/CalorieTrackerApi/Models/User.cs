@@ -13,6 +13,6 @@ namespace CalorieTrackerApi.Models
         public string UserName { get; set; }
         public bool IsAdmin { get; set; }
 
-        public ICollection<FoodEntry> FoodEntries { get; set; }
+        public ICollection<FoodEntry> FoodEntries { get; } = new List<FoodEntry>();
     }
 }

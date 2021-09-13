@@ -26,7 +26,7 @@ namespace CalorieTrackerApi.Services
         public (bool, string) CreateUserToken(CreateTokenDto userToken)
         {
             var userExists = _userService.GetUser(userToken.UserName);
-            if(userExists == null)
+            if(userExists.Item2 == null)
             {
                 return (false, "User doesn't exists");
             }
@@ -53,7 +53,7 @@ namespace CalorieTrackerApi.Services
         public (bool, string) RefreshUserToken(CreateTokenDto userToken)
         {
             var userExists = _userService.GetUser(userToken.UserName);
-            if (userExists == null)
+            if (userExists.Item2 == null)
             {
                 return (false, "User doesn't exists");
             }

@@ -42,7 +42,7 @@ namespace CalorieTrackerApi.Authentication
                 return;
             }
 
-            var sessionKey = userToken.Token.ToString();
+            var sessionKey = userToken.Token.ToString().ToLower();
             if (string.IsNullOrEmpty(_httpContextAccessor.HttpContext.Session.GetString(sessionKey)))
             {
                 _httpContextAccessor.HttpContext.Session.SetString(sessionKey, userToken.User.UserName);

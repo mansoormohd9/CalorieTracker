@@ -31,10 +31,14 @@ namespace CalorieTrackerApi.Services
             return _userRepo.DeleteUser(userName);
         }
 
-        public UserDto GetUser(string userName)
+        public (bool, UserDto) GetUser(string userName)
         {
             var user = _userRepo.GetUser(userName);
-            return _mapper.Map<UserDto>(user);
+            if(user == null)
+            {
+                return (false, null);
+            }
+            return (true, _mapper.Map<UserDto>(user));
         }
 
         public List<UserDto> GetUsers()

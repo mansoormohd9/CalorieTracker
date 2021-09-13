@@ -30,11 +30,15 @@ namespace CalorieTrackerApi.Repositories
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                var user = context.Users.FirstOrDefault(x => x.UserName == userName);
+                var user = context.Users.Include(x => x.FoodEntries).FirstOrDefault(x => x.UserName == userName);
                 if(user == null)
                 {
                     return (false, "User doesn't exist");
                 }
+                var userTokens = context.UserTokens.Where(x => x.UserId == user.ID);
+                context.UserTokens.RemoveRange(userTokens);
+                context.SaveChanges();
+
                 context.Users.Remove(user);
                 context.SaveChanges();
                 return (true, "Delete Successful");
@@ -45,7 +49,7 @@ namespace CalorieTrackerApi.Repositories
         {
             using(var context = _contextFactory.CreateDbContext())
             {
-                return context.Users.FirstOrDefault(x => x.UserName == userName);
+                return context.Users.Include(x => x.FoodEntries).FirstOrDefault(x => x.UserName == userName);
             }
         }
 
@@ -53,7 +57,7 @@ namespace CalorieTrackerApi.Repositories
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                return context.Users.ToList();
+                return context.Users.Include(x => x.FoodEntries).ToList();
             }
         }
 
@@ -61,17 +65,14 @@ namespace CalorieTrackerApi.Repositories
         {
             using(var context = _contextFactory.CreateDbContext())
             {
-                var curUser = context.Users.FirstOrDefault(x => x.UserName == user.UserName);
+                var curUser = context.Users.Include(x => x.FoodEntries).FirstOrDefault(x => x.UserName == user.UserName);
                 if (curUser == null)
                 {
                     return (false, "User doesn't exist");
                 }
                 context.Users.Remove(curUser);
                 context.SaveChanges();
-            }
 
-            using (var context = _contextFactory.CreateDbContext())
-            {
                 context.Users.Add(user);
                 context.SaveChanges();
                 return (true, "User update successful");

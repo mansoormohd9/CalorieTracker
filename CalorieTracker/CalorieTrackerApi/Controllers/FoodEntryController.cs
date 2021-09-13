@@ -53,7 +53,11 @@ namespace CalorieTrackerApi.Controllers
             IActionResult result = Ok();
             try
             {
-                _foodEntryService.CreateFoodEntry(Utils.GetUsernameFromContext(HttpContext), _mapper.Map<FoodEntry>(foodEntryDto));
+                var createResult = _foodEntryService.CreateFoodEntry(Utils.GetUsernameFromContext(HttpContext), _mapper.Map<FoodEntry>(foodEntryDto));
+                if (!createResult.Item1)
+                {
+                    return BadRequest(createResult.Item2);
+                }
             }
             catch (Exception ex)
             {
@@ -67,12 +71,16 @@ namespace CalorieTrackerApi.Controllers
 
         // PUT api/<FoodEntryController>/5
         [HttpPut]
-        public IActionResult Put([FromBody] CreateFoodEntryDto foodEntryDto)
+        public IActionResult Put([FromBody] UpdateFoodEntryDto foodEntryDto)
         {
             IActionResult result = Ok();
             try
             {
-                _foodEntryService.UpdateFoodEntry(Utils.GetUsernameFromContext(HttpContext), _mapper.Map<FoodEntry>(foodEntryDto));
+                var updateResult = _foodEntryService.UpdateFoodEntry(Utils.GetUsernameFromContext(HttpContext), _mapper.Map<FoodEntry>(foodEntryDto));
+                if (!updateResult.Item1)
+                {
+                    return BadRequest(updateResult.Item2);
+                }
             }
             catch (Exception ex)
             {
@@ -91,7 +99,11 @@ namespace CalorieTrackerApi.Controllers
             IActionResult result = Ok();
             try
             {
-                _foodEntryService.DeleteFoodEntry(Utils.GetUsernameFromContext(HttpContext), guid);
+                var deleteResult = _foodEntryService.DeleteFoodEntry(Utils.GetUsernameFromContext(HttpContext), guid);
+                if (!deleteResult.Item1)
+                {
+                    return BadRequest(deleteResult.Item2);
+                }
             }
             catch (Exception ex)
             {

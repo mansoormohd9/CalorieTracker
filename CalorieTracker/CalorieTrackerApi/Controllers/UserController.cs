@@ -33,6 +33,7 @@ namespace CalorieTrackerApi.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
+        [AdminAccessRequired]
         public IEnumerable<UserDto> Get()
         {
             return _userService.GetUsers();
@@ -40,9 +41,27 @@ namespace CalorieTrackerApi.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{userName}")]
-        public UserDto Get(string userName)
+        [AdminAccessRequired]
+        public IActionResult Get(string userName)
         {
-            return _userService.GetUser(userName);
+            IActionResult result = Ok();
+            try
+            {
+                var actResult = _userService.GetUser(userName);
+                if (!actResult.Item1)
+                {
+                    return BadRequest("User doesn't exist");
+                }
+                return Ok(actResult.Item2);
+            }
+            catch (Exception ex)
+            {
+                var message = "Get User failed";
+                _logger.LogError(ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, message);
+            }
+
+            return result;
         }
 
         // POST api/<UsersController>
@@ -52,7 +71,11 @@ namespace CalorieTrackerApi.Controllers
             IActionResult result = Ok();
             try
             {
-                _userService.CreateUser(_mapper.Map<User>(user));
+                var actResult = _userService.CreateUser(_mapper.Map<User>(user));
+                if (!actResult.Item1)
+                {
+                    return BadRequest(actResult.Item2);
+                }
             }
             catch (Exception ex)
             {
@@ -72,7 +95,11 @@ namespace CalorieTrackerApi.Controllers
             IActionResult result = Ok();
             try
             {
-                _userService.UpdateUser(_mapper.Map<User>(user));
+                var actResult = _userService.UpdateUser(_mapper.Map<User>(user));
+                if (!actResult.Item1)
+                {
+                    return BadRequest(actResult.Item2);
+                }
             }
             catch (Exception ex)
             {
@@ -92,7 +119,11 @@ namespace CalorieTrackerApi.Controllers
             IActionResult result = Ok();
             try
             {
-                _userService.DeleteUser(userName);
+                var actResult = _userService.DeleteUser(userName);
+                if (!actResult.Item1)
+                {
+                    return BadRequest(actResult.Item2);
+                }
             }
             catch (Exception ex)
             {

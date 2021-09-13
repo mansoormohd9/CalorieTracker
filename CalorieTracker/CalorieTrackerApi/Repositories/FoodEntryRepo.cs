@@ -23,7 +23,7 @@ namespace CalorieTrackerApi.Repositories
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                var user = context.Users.FirstOrDefault(x => x.UserName == userName);
+                var user = context.Users.Include(x => x.FoodEntries).FirstOrDefault(x => x.UserName == userName);
                 if (user == null)
                 {
                     return (false, "User doesn't exist");
@@ -38,7 +38,7 @@ namespace CalorieTrackerApi.Repositories
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                var user = context.Users.FirstOrDefault(x => x.UserName == userName);
+                var user = context.Users.Include(x => x.FoodEntries).FirstOrDefault(x => x.UserName == userName);
                 if (user == null)
                 {
                     return (false, "User doesn't exist");
@@ -55,7 +55,7 @@ namespace CalorieTrackerApi.Repositories
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                var user = context.Users.FirstOrDefault(x => x.UserName == userName);
+                var user = context.Users.Include(x => x.FoodEntries).FirstOrDefault(x => x.UserName == userName);
                 return user.FoodEntries.ToList();
             }
         }
@@ -64,7 +64,7 @@ namespace CalorieTrackerApi.Repositories
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                var user = context.Users.FirstOrDefault(x => x.UserName == userName);
+                var user = context.Users.Include(x => x.FoodEntries).FirstOrDefault(x => x.UserName == userName);
                 return user.FoodEntries.FirstOrDefault(x => x.Guid == guid);
             }
         }
@@ -73,13 +73,18 @@ namespace CalorieTrackerApi.Repositories
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                var user = context.Users.FirstOrDefault(x => x.UserName == userName);
+                var user = context.Users.Include(x => x.FoodEntries).FirstOrDefault(x => x.UserName == userName);
                 if (user == null)
                 {
                     return (false, "User doesn't exist");
                 }
                 var toBeRemovedFoodEntry = user.FoodEntries.FirstOrDefault(x => x.Guid == foodEntry.Guid);
+                if (toBeRemovedFoodEntry == null)
+                {
+                    return (false, "Food Entry doesnot exist");
+                }
                 user.FoodEntries.Remove(toBeRemovedFoodEntry);
+                context.FoodEntries.Remove(toBeRemovedFoodEntry);
                 context.SaveChanges();
 
                 user.FoodEntries.Add(foodEntry);
