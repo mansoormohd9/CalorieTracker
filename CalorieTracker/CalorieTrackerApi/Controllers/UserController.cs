@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CalorieTrackerApi.Dtos;
+using CalorieTrackerApi.Helpers;
 using CalorieTrackerApi.Models;
 using CalorieTrackerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -47,7 +48,7 @@ namespace CalorieTrackerApi.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] UserDto user)
         {
-            IActionResult result = null;
+            IActionResult result = Ok();
             try
             {
                 _userService.CreateUser(_mapper.Map<User>(user));
@@ -66,7 +67,7 @@ namespace CalorieTrackerApi.Controllers
         [HttpPut]
         public IActionResult Put([FromBody] UserDto user)
         {
-            IActionResult result = null;
+            IActionResult result = Ok();
             try
             {
                 _userService.UpdateUser(_mapper.Map<User>(user));
@@ -83,9 +84,21 @@ namespace CalorieTrackerApi.Controllers
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{userName}")]
-        public void Delete(string userName)
+        public IActionResult Delete(string userName)
         {
+            IActionResult result = Ok();
+            try
+            {
+                _userService.DeleteUser(userName);
+            }
+            catch (Exception ex)
+            {
+                var message = "Delete User failed";
+                _logger.LogError(ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, message);
+            }
 
+            return result;
         }
     }
 }

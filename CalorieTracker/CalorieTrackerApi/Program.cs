@@ -1,5 +1,6 @@
 using CalorieTrackerApi.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,8 +30,8 @@ namespace CalorieTrackerApi
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<CalorieTrackerDbContext>();
-                    DbInitializer.Initialize(context);
+                    var context = services.GetRequiredService<IDbContextFactory<CalorieTrackerDbContext>>();
+                    DbInitializer.Initialize(context.CreateDbContext());
                 }
                 catch (Exception ex)
                 {

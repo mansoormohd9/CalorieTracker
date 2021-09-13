@@ -1,9 +1,15 @@
-﻿using CalorieTrackerApi.Authentication;
+﻿using AutoMapper;
+using CalorieTrackerApi.Authentication;
+using CalorieTrackerApi.Dtos;
+using CalorieTrackerApi.Helpers;
+using CalorieTrackerApi.Models;
 using CalorieTrackerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -16,42 +22,85 @@ namespace CalorieTrackerApi.Controllers
     public class FoodEntryController : ControllerBase
     {
         private readonly IFoodEntryService _foodEntryService;
+        private readonly ILogger _logger;
+        private readonly IMapper _mapper;
 
-        public FoodEntryController(IFoodEntryService foodEntryService)
+        public FoodEntryController(ILogger<FoodEntryController> logger, IFoodEntryService foodEntryService, IMapper mapper)
         {
             _foodEntryService = foodEntryService;
+            _logger = logger;
+            _mapper = mapper;
         }
 
         // GET: api/<FoodEntryController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<FoodEntryDto> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _foodEntryService.GetFoodEntries(Utils.GetUsernameFromContext(HttpContext));
         }
 
         // GET api/<FoodEntryController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{guid}")]
+        public FoodEntryDto Get(Guid guid)
         {
-            return "foodEntryDto";
+            return _foodEntryService.GetFoodEntry(Utils.GetUsernameFromContext(HttpContext), guid);
         }
 
         // POST api/<FoodEntryController>
         [HttpPost]
-        public void Post([FromBody] string foodEntryDto)
+        public IActionResult Post([FromBody] string foodEntryDto)
         {
+            IActionResult result = Ok();
+            try
+            {
+                _foodEntryService.CreateFoodEntry(Utils.GetUsernameFromContext(HttpContext), _mapper.Map<FoodEntry>(foodEntryDto));
+            }
+            catch (Exception ex)
+            {
+                var message = "Create Food Entry failed";
+                _logger.LogError(ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, message);
+            }
+
+            return result;
         }
 
         // PUT api/<FoodEntryController>/5
         [HttpPut]
-        public void Put([FromBody] string foodEntryDto)
+        public IActionResult Put([FromBody] string foodEntryDto)
         {
+            IActionResult result = Ok();
+            try
+            {
+                _foodEntryService.UpdateFoodEntry(Utils.GetUsernameFromContext(HttpContext), _mapper.Map<FoodEntry>(foodEntryDto));
+            }
+            catch (Exception ex)
+            {
+                var message = "Update Food Entry failed";
+                _logger.LogError(ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, message);
+            }
+
+            return result;
         }
 
         // DELETE api/<FoodEntryController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{guid}")]
+        public IActionResult Delete(Guid guid)
         {
+            IActionResult result = Ok();
+            try
+            {
+                _foodEntryService.DeleteFoodEntry(Utils.GetUsernameFromContext(HttpContext), guid);
+            }
+            catch (Exception ex)
+            {
+                var message = "Delete Food Entry failed";
+                _logger.LogError(ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, message);
+            }
+
+            return result;
         }
     }
 }

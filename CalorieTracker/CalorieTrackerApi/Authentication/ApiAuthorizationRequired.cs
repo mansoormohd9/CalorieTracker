@@ -1,4 +1,5 @@
-﻿using CalorieTrackerApi.Services.Interfaces;
+﻿using CalorieTrackerApi.Repositories.Interfaces;
+using CalorieTrackerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -10,7 +11,7 @@ namespace CalorieTrackerApi.Authentication
 {
     public class ApiAuthorizationRequired : Attribute, IActionFilter
     {
-        private ITokenService _tokenService;
+        private ITokenRepo _tokenRepo;
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
@@ -32,15 +33,21 @@ namespace CalorieTrackerApi.Authentication
                 return;
             }
 
-            _tokenService = (ITokenService)context.HttpContext.RequestServices.GetService(typeof(ITokenService));
-            var userToken = _tokenService.GetUserToken(parsedApiKey);
+            _tokenRepo = (ITokenRepo)context.HttpContext.RequestServices.GetService(typeof(ITokenRepo));
+            var _httpContextAccessor = (IHttpContextAccessor)context.HttpContext.RequestServices.GetService(typeof(IHttpContextAccessor));
+            var userToken = _tokenRepo.GetUserToken(parsedApiKey);
             if(DateTime.UtcNow > userToken.Expiry)
             {
                 context.Result = new UnauthorizedObjectResult("Api Key is expired");
                 return;
             }
 
-            //HttpContext.Session.["Username"] = userToken.Token;
+            var sessionKey = userToken.Token.ToString();
+            if (string.IsNullOrEmpty(_httpContextAccessor.HttpContext.Session.GetString(sessionKey)))
+            {
+                _httpContextAccessor.HttpContext.Session.SetString(sessionKey, userToken.User.UserName);
+            }
+            var test = _httpContextAccessor.HttpContext.Session.GetString(sessionKey);
 
             Trace.WriteLine(string.Format("Action Method {0} executing at {1}", context.ActionDescriptor.DisplayName, DateTime.Now.ToShortDateString()), "Web API Logs");            
         }
