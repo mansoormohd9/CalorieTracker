@@ -23,12 +23,7 @@ namespace CalorieTrackerApi.Repositories
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                var user = context.Users.FirstOrDefault(x => x.UserName == userName);
-                if (user == null)
-                {
-                    return (false, "User doesn't exist");
-                }
-                user.UserToken = userToken;
+                context.UserTokens.Add(userToken);
                 context.SaveChanges();
                 return (true, "User Token added");
             }
@@ -38,9 +33,7 @@ namespace CalorieTrackerApi.Repositories
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                var user = context.Users.FirstOrDefault(x => x.UserToken != null && x.UserToken.Token == guid);
                 var userToken = context.UserTokens.FirstOrDefault(x => x.Token == guid);
-                user.UserToken = null;
                 context.UserTokens.Remove(userToken);
                 context.SaveChanges();
                 return (false, "User token Removed");
@@ -64,16 +57,19 @@ namespace CalorieTrackerApi.Repositories
             }
         }
 
-        public (bool, string) UpdateUserToken(string userName, UserToken userToken)
+        public (bool, string) RefreshUserToken(string userName, UserToken userToken)
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                var user = context.Users.FirstOrDefault(x => x.UserName == userName);
-                if (user == null)
+                var existingUserToken = context.UserTokens.FirstOrDefault(x => x.User.UserName == userName);
+                if (existingUserToken == null)
                 {
                     return (false, "User doesn't exist");
                 }
-                user.UserToken = userToken;
+                context.UserTokens.Remove(existingUserToken);
+                context.SaveChanges();
+
+                context.UserTokens.Add(userToken);
                 context.SaveChanges();
                 return (true, "User Token added");
             }

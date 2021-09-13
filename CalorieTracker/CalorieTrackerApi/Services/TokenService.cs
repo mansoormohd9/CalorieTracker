@@ -43,9 +43,9 @@ namespace CalorieTrackerApi.Services
             return _mapper.Map<TokenDto>(userToken);
         }
 
-        public (bool, string) UpdateUserToken(string userName, UserToken userToken)
+        public (bool, string) RefreshUserToken(string userName, UserToken userToken)
         {
-            return _tokenRepo.UpdateUserToken(userName, userToken);
+            return _tokenRepo.RefreshUserToken(userName, userToken);
         }
     }
 }

@@ -12,6 +12,5 @@ namespace CalorieTrackerApi.Models
         public bool IsAdmin { get; set; }
 
         public ICollection<FoodEntry> FoodEntries { get; set; }
-        public UserToken UserToken { get; set; }
     }
 }

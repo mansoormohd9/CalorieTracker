@@ -12,5 +12,7 @@ namespace CalorieTrackerApi.Models
         public string IpAddress { get; set; }
         public DateTime Expiry { get; set; }
         public DateTime LastLogin { get; set; }
+
+        public User User { get; set; }
     }
 }

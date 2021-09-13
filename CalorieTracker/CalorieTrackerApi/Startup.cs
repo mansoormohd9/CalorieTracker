@@ -9,6 +9,7 @@ using CalorieTrackerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -41,15 +42,31 @@ namespace CalorieTrackerApi
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "[anything]", Version = "v1" });
-                c.AddSecurityDefinition("[auth scheme: same name as defined for asp.net]", new OpenApiSecurityScheme()
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Calories Tracker Api", Version = "v1" });
+                var openApiSecurityScheme = new OpenApiSecurityScheme()
                 {
                     Type = SecuritySchemeType.ApiKey,
                     In = ParameterLocation.Header,
                     Name = "ApiKey",
                     Description = "ApiKey",
-                });
+                };
+                c.AddSecurityDefinition("Token", openApiSecurityScheme);
                 c.OperationFilter<AuthResponsesOperationFilter>();
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Token"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
             });
 
             services.AddDbContextFactory<CalorieTrackerDbContext>(options =>
@@ -66,6 +83,7 @@ namespace CalorieTrackerApi
             services.AddScoped<ITokenRepo, TokenRepo>();
 
             services.AddAutoMapper(typeof(MappingProfile));
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
