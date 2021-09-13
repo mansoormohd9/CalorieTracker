@@ -16,5 +16,13 @@ namespace CalorieTrackerApi.Data
         public DbSet<User> Users { get; set; }
         public DbSet<FoodEntry> FoodEntries { get; set; }
         public DbSet<UserToken> UserTokens { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasMany(i => i.FoodEntries)
+                .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }

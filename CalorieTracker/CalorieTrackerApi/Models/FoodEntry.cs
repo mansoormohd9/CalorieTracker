@@ -14,5 +14,10 @@ namespace CalorieTrackerApi.Models
         public int Calories { get; set; }
         public DateTime Date { get; set; }
         public Guid Guid { get; set; }
+
+        [ForeignKey("User"), DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int UserId { get; set; }
+
+        public User User { get; set; }
     }
 }
