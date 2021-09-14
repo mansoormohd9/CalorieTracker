@@ -68,7 +68,7 @@ namespace CalorieTrackerApi.Controllers
             IActionResult result = Ok();
             try
             {
-                var actResult = _userService.CreateUser(_mapper.Map<User>(user));
+                var actResult = _userService.CreateUser(user);
                 if (!actResult.Item1)
                 {
                     return BadRequest(actResult.Item2);
@@ -92,7 +92,7 @@ namespace CalorieTrackerApi.Controllers
             IActionResult result = Ok();
             try
             {
-                var actResult = _userService.UpdateUser(_mapper.Map<User>(user));
+                var actResult = _userService.UpdateUser(user);
                 if (!actResult.Item1)
                 {
                     return BadRequest(actResult.Item2);

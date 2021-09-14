@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CalorieTrackerApi.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,13 @@ namespace CalorieTracker.Controllers
 {
     public class TokenController : Controller
     {
+        private readonly ITokenService _tokenService;
+
+        public TokenController(ITokenService tokenService)
+        {
+            _tokenService = tokenService;
+        }
+
         // GET: TokenController
         public ActionResult Index()
         {
@@ -64,23 +72,17 @@ namespace CalorieTracker.Controllers
         }
 
         // GET: TokenController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: TokenController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteToken()
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _tokenService.DeleteUserToken(Guid.Parse(HttpContext.Session.GetString(Constants.Constants.ApiKey)));
+                HttpContext.Session.Clear();
+                return RedirectToAction("Create", "User");
             }
             catch
             {
-                return View();
+                return RedirectToAction("Error", "Home");
             }
         }
     }

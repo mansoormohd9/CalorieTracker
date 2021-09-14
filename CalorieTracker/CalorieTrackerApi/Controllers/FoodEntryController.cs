@@ -67,7 +67,7 @@ namespace CalorieTrackerApi.Controllers
             IActionResult result = Ok();
             try
             {
-                var createResult = _foodEntryService.CreateFoodEntry(Utils.GetUsernameFromContext(HttpContext), _mapper.Map<FoodEntry>(foodEntryDto));
+                var createResult = _foodEntryService.CreateFoodEntry(Utils.GetUsernameFromContext(HttpContext), foodEntryDto);
                 if (!createResult.Item1)
                 {
                     return BadRequest(createResult.Item2);
@@ -90,7 +90,7 @@ namespace CalorieTrackerApi.Controllers
             IActionResult result = Ok();
             try
             {
-                var updateResult = _foodEntryService.UpdateFoodEntry(Utils.GetUsernameFromContext(HttpContext), _mapper.Map<FoodEntry>(foodEntryDto));
+                var updateResult = _foodEntryService.UpdateFoodEntry(Utils.GetUsernameFromContext(HttpContext), foodEntryDto);
                 if (!updateResult.Item1)
                 {
                     return BadRequest(updateResult.Item2);

@@ -12,6 +12,7 @@ namespace CalorieTrackerApi.Services.Interfaces
         List<TokenDto> GetUserTokens();
 
         (bool, TokenDto) GetUserToken(Guid guid);
+        TokenDto GetUserToken(string userName);
 
         (bool, string) CreateUserToken(CreateTokenDto userToken);
 

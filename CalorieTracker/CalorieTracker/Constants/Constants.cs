@@ -8,6 +8,8 @@ namespace CalorieTracker.Constants
     public class Constants
     {
         public const string UserNamekey = "Username";
-        public const bool IsAuthenticated = false;
+        public const string IsAuthenticated = "Authenticated";
+        public const string ApiKey = "ApiKey";
+        public const string Admin = "Admin";
     }
 }

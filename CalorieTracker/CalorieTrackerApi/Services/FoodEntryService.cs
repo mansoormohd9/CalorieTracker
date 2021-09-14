@@ -21,9 +21,9 @@ namespace CalorieTrackerApi.Services
             _mapper = mapper;
         }
 
-        public (bool, string) CreateFoodEntry(string userName, FoodEntry foodEntry)
+        public (bool, string) CreateFoodEntry(string userName, CreateFoodEntryDto foodEntry)
         {
-            return _foodEntryRepo.CreateFoodEntry(userName, foodEntry);
+            return _foodEntryRepo.CreateFoodEntry(userName, _mapper.Map<FoodEntry>(foodEntry));
         }
 
         public (bool, string) DeleteFoodEntry(string userName, Guid guid)
@@ -47,9 +47,9 @@ namespace CalorieTrackerApi.Services
             return (true, _mapper.Map<FoodEntryDto>(foodEntry));
         }
 
-        public (bool, string) UpdateFoodEntry(string userName, FoodEntry foodEntry)
+        public (bool, string) UpdateFoodEntry(string userName, UpdateFoodEntryDto foodEntry)
         {
-            return _foodEntryRepo.UpdateFoodEntry(userName, foodEntry);
+            return _foodEntryRepo.UpdateFoodEntry(userName, _mapper.Map<FoodEntry>(foodEntry));
         }
     }
 }

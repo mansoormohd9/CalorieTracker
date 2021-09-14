@@ -21,14 +21,14 @@ namespace CalorieTrackerApi.Services
             _mapper = mapper;
         }
 
-        public (bool, string) CreateUser(User user)
+        public (bool, string) CreateUser(UserDto user)
         {
             var existingUser = _userRepo.GetUser(user.UserName);
             if(existingUser != null)
             {
                 return (false, "User already exists");
             }
-            return _userRepo.CreateUser(user);
+            return _userRepo.CreateUser(_mapper.Map<User>(user));
         }
 
         public (bool, string) DeleteUser(string userName)
@@ -52,9 +52,9 @@ namespace CalorieTrackerApi.Services
             return _mapper.Map<List<UserDto>>(users);
         }
 
-        public (bool, string) UpdateUser(User user)
+        public (bool, string) UpdateUser(UserDto user)
         {
-            return _userRepo.UpdateUser(user);
+            return _userRepo.UpdateUser(_mapper.Map<User>(user));
         }
     }
 }

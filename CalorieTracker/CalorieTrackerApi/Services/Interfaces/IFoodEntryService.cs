@@ -13,9 +13,9 @@ namespace CalorieTrackerApi.Services.Interfaces
 
         (bool, FoodEntryDto) GetFoodEntry(string userName, Guid guid);
 
-        (bool, string) CreateFoodEntry(string userName, FoodEntry foodEntry);
+        (bool, string) CreateFoodEntry(string userName, CreateFoodEntryDto foodEntry);
 
-        (bool, string) UpdateFoodEntry(string userName, FoodEntry foodEntry);
+        (bool, string) UpdateFoodEntry(string userName, UpdateFoodEntryDto foodEntry);
 
         (bool, string) DeleteFoodEntry(string userName, Guid guid);
     }

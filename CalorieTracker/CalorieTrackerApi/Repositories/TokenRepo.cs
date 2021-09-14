@@ -78,5 +78,13 @@ namespace CalorieTrackerApi.Repositories
                 return (true, "User Token added");
             }
         }
+
+        public UserToken GetUserToken(string userName)
+        {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return context.UserTokens.FirstOrDefault(x => x.User.UserName == userName);
+            }
+        }
     }
 }

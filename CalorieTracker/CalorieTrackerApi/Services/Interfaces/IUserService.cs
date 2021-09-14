@@ -13,9 +13,9 @@ namespace CalorieTrackerApi.Services.Interfaces
 
         (bool, UserDto) GetUser(string userName);
 
-        (bool, string) CreateUser(User user);
+        (bool, string) CreateUser(UserDto user);
 
-        (bool, string) UpdateUser(User user);
+        (bool, string) UpdateUser(UserDto user);
 
         (bool, string) DeleteUser(string userName);
     }

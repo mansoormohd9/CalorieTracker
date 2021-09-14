@@ -1,13 +1,11 @@
 ﻿@model CalorieTrackerApi.Dtos.UserDto
 
 @{
-    ViewData["Title"] = Context.Session.GetString(Constants.UserNamekey);
+    ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create - @Context.Session.GetString(Constants.UserNamekey)</h1>
-
-<h4>UserDto</h4>
+<h1>Login</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
