@@ -1,7 +1,16 @@
+using CalorieTracker.Services;
+using CalorieTracker.Services.Interfaces;
+using CalorieTrackerApi.Data;
+using CalorieTrackerApi.Mappings;
+using CalorieTrackerApi.Repositories;
+using CalorieTrackerApi.Repositories.Interfaces;
+using CalorieTrackerApi.Services;
+using CalorieTrackerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,14 +38,29 @@ namespace CalorieTracker
             //Session Support
             services.AddDistributedMemoryCache();
 
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
+            services.AddSession();
 
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddDbContextFactory<CalorieTrackerDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //Services from api
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFoodEntryService, FoodEntryService>();
+            services.AddScoped<ITokenService, TokenService>();
+
+            //Repos
+            services.AddScoped<IUserRepo, UserRepo>();
+            services.AddScoped<IFoodEntryRepo, FoodEntryRepo>();
+            services.AddScoped<ITokenRepo, TokenRepo>();
+
+            services.AddAutoMapper(typeof(MappingProfile));
+
+            //Services
+            services.AddScoped<IUserViewService, UserViewService>();
+            services.AddScoped<IFoodEntryViewService, FoodEntryViewService>();
+            services.AddScoped<ITokenViewService, TokenViewService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

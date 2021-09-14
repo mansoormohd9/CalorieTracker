@@ -1,4 +1,5 @@
 ﻿using CalorieTracker.Services.Interfaces;
+using CalorieTrackerApi.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,6 +21,7 @@ namespace CalorieTracker.Controllers
         // GET: UserController
         public ActionResult Index()
         {
+            var x= HttpContext.Session.GetString("ApiKEy");
             return View();
         }
 
@@ -39,10 +41,11 @@ namespace CalorieTracker.Controllers
         // POST: UserController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(UserDto userDto)
         {
             try
             {
+                HttpContext.Session.SetString("ApiKEy", "dfsfs");
                 
                 HttpContext.Session.SetString(Constants.Constants.UserNamekey, "test");
                 return RedirectToAction(nameof(Index));

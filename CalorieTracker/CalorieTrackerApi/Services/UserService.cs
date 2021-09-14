@@ -23,6 +23,11 @@ namespace CalorieTrackerApi.Services
 
         public (bool, string) CreateUser(User user)
         {
+            var existingUser = _userRepo.GetUser(user.UserName);
+            if(existingUser != null)
+            {
+                return (false, "User already exists");
+            }
             return _userRepo.CreateUser(user);
         }
 

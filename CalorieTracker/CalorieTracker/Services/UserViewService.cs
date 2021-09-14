@@ -15,5 +15,10 @@ namespace CalorieTracker.Services
         {
             _userService = userService;
         }
+
+        //public bool GetorCreateUser()
+        //{
+
+        //}
     }
 }
