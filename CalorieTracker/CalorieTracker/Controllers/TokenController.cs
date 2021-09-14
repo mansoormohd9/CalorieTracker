@@ -1,5 +1,4 @@
-﻿using CalorieTracker.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,43 +7,33 @@ using System.Threading.Tasks;
 
 namespace CalorieTracker.Controllers
 {
-    public class UserController : Controller
+    public class TokenController : Controller
     {
-        private readonly IUserViewService _userViewService;
-
-        public UserController(IUserViewService userViewService)
-        {
-            _userViewService = userViewService;
-        }
-
-        // GET: UserController
+        // GET: TokenController
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: UserController/Details/5
+        // GET: TokenController/Details/5
         public ActionResult Details(int id)
         {
-            
             return View();
         }
 
-        // GET: UserController/Create
+        // GET: TokenController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: UserController/Create
+        // POST: TokenController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
         {
             try
             {
-                
-                HttpContext.Session.SetString(Constants.Constants.UserNamekey, "test");
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -53,13 +42,13 @@ namespace CalorieTracker.Controllers
             }
         }
 
-        // GET: UserController/Edit/5
+        // GET: TokenController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: UserController/Edit/5
+        // POST: TokenController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -74,13 +63,13 @@ namespace CalorieTracker.Controllers
             }
         }
 
-        // GET: UserController/Delete/5
+        // GET: TokenController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: UserController/Delete/5
+        // POST: TokenController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
