@@ -44,7 +44,6 @@ namespace CalorieTrackerApi.Controllers
         [AdminAccessRequired]
         public IActionResult Get(string userName)
         {
-            IActionResult result = Ok();
             try
             {
                 var actResult = _userService.GetUser(userName);
@@ -60,8 +59,6 @@ namespace CalorieTrackerApi.Controllers
                 _logger.LogError(ex.Message);
                 return StatusCode((int)HttpStatusCode.InternalServerError, message);
             }
-
-            return result;
         }
 
         // POST api/<UsersController>

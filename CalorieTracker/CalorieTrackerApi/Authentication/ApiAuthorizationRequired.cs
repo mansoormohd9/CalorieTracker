@@ -36,7 +36,13 @@ namespace CalorieTrackerApi.Authentication
             _tokenRepo = (ITokenRepo)context.HttpContext.RequestServices.GetService(typeof(ITokenRepo));
             var _httpContextAccessor = (IHttpContextAccessor)context.HttpContext.RequestServices.GetService(typeof(IHttpContextAccessor));
             var userToken = _tokenRepo.GetUserToken(parsedApiKey);
-            if(DateTime.UtcNow > userToken.Expiry)
+            if (userToken == null)
+            {
+                context.Result = new UnauthorizedObjectResult("Apikey doesn't exist");
+                return;
+            }
+
+            if (DateTime.UtcNow > userToken.Expiry)
             {
                 context.Result = new UnauthorizedObjectResult("Api Key is expired");
                 return;

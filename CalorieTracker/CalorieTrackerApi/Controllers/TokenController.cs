@@ -39,9 +39,23 @@ namespace CalorieTrackerApi.Controllers
 
         // GET api/<TokenController>/5
         [HttpGet("{guid}")]
-        public TokenDto Get(Guid guid)
+        public IActionResult Get(Guid guid)
         {
-            return _tokenService.GetUserToken(guid);
+            try
+            {
+                var actResult = _tokenService.GetUserToken(guid);
+                if (!actResult.Item1)
+                {
+                    return BadRequest("Token doesn't exist");
+                }
+                return Ok(actResult.Item2);
+            }
+            catch (Exception ex)
+            {
+                var message = "Get Token failed";
+                _logger.LogError(ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, message);
+            }
         }
 
         // POST api/<TokenController>

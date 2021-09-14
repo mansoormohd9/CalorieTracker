@@ -34,16 +34,30 @@ namespace CalorieTrackerApi.Controllers
 
         // GET: api/<FoodEntryController>
         [HttpGet]
-        public IEnumerable<CreateFoodEntryDto> Get()
+        public IEnumerable<FoodEntryDto> Get()
         {
             return _foodEntryService.GetFoodEntries(Utils.GetUsernameFromContext(HttpContext));
         }
 
         // GET api/<FoodEntryController>/5
         [HttpGet("{guid}")]
-        public CreateFoodEntryDto Get(Guid guid)
+        public IActionResult Get(Guid guid)
         {
-            return _foodEntryService.GetFoodEntry(Utils.GetUsernameFromContext(HttpContext), guid);
+            try
+            {
+                var actResult = _foodEntryService.GetFoodEntry(Utils.GetUsernameFromContext(HttpContext), guid);
+                if (!actResult.Item1)
+                {
+                    return BadRequest("FoodEntry doesn't exist");
+                }
+                return Ok(actResult.Item2);
+            }
+            catch (Exception ex)
+            {
+                var message = "Get FoodEntry failed";
+                _logger.LogError(ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, message);
+            }
         }
 
         // POST api/<FoodEntryController>

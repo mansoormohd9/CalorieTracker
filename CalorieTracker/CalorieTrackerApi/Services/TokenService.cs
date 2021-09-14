@@ -44,10 +44,14 @@ namespace CalorieTrackerApi.Services
             return _mapper.Map<List<TokenDto>>(userTokens);
         }
 
-        public TokenDto GetUserToken(Guid guid)
+        public (bool, TokenDto) GetUserToken(Guid guid)
         {
             var userToken = _tokenRepo.GetUserToken(guid);
-            return _mapper.Map<TokenDto>(userToken);
+            if (userToken == null)
+            {
+                return (false, null);
+            }
+            return (true, _mapper.Map<TokenDto>(userToken));
         }
 
         public (bool, string) RefreshUserToken(CreateTokenDto userToken)

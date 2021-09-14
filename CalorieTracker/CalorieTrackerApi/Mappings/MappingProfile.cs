@@ -28,6 +28,8 @@ namespace CalorieTrackerApi.Mappings
                 .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => DateTime.UtcNow));
 
+            CreateMap<FoodEntry, FoodEntryDto>();
+
             CreateMap<CreateTokenDto, UserToken>()
                 .ForMember(dest => dest.LastLogin, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ForMember(dest => dest.Token, opt => opt.MapFrom(src => Guid.NewGuid()))
