@@ -34,5 +34,15 @@ namespace CalorieTracker.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult LoginRequired()
+        {
+            return View();
+        }
+
+        public IActionResult AdminAccessRequired()
+        {
+            return View();
+        }
     }
 }

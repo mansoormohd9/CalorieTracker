@@ -1,4 +1,5 @@
-﻿using CalorieTrackerApi.Dtos;
+﻿using CalorieTracker.Authentication;
+using CalorieTrackerApi.Dtos;
 using CalorieTrackerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace CalorieTracker.Controllers
         }
 
         // GET: TokenController
+        [AdminUiAccessRequired]
         public ActionResult Index()
         {
             try
@@ -32,6 +34,7 @@ namespace CalorieTracker.Controllers
         }
 
         // GET: TokenController/Details/5
+        [AdminUiAccessRequired]
         public ActionResult Details(string userName)
         {
             try
@@ -45,6 +48,7 @@ namespace CalorieTracker.Controllers
         }
 
         // GET: TokenController/Create
+        [AdminUiAccessRequired]
         public ActionResult Create()
         {
             return View();
@@ -67,6 +71,7 @@ namespace CalorieTracker.Controllers
         }
 
         // GET: TokenController/Edit/5
+        [AdminUiAccessRequired]
         public ActionResult Edit(string userName)
         {
             try
@@ -101,11 +106,11 @@ namespace CalorieTracker.Controllers
             try
             {
                 _tokenService.DeleteUserToken(guid);
-                if (guid.Equals(HttpContext.Session.GetString(Constants.Constants.ApiKey)))
+                if (guid.ToString().Equals(HttpContext.Session.GetString(Constants.Constants.ApiKey)))
                 {
                     HttpContext.Session.Clear();
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             catch
             {

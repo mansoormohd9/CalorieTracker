@@ -1,4 +1,5 @@
-﻿using CalorieTracker.Services.Interfaces;
+﻿using CalorieTracker.Authentication;
+using CalorieTracker.Services.Interfaces;
 using CalorieTrackerApi.Dtos;
 using CalorieTrackerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -22,12 +23,14 @@ namespace CalorieTracker.Controllers
         }
 
         // GET: UserController
+        [AdminUiAccessRequired]
         public ActionResult Index()
         {
             return View(_userService.GetUsers());
         }
 
         // GET: UserController/Details/5
+        [AdminUiAccessRequired]
         public ActionResult Details(string userName)
         {
             return View(_userService.GetUser(userName).Item2);
@@ -47,7 +50,16 @@ namespace CalorieTracker.Controllers
             try
             {
                 _userViewService.GetOrCreateUser(userDto, HttpContext);
-                return RedirectToAction(nameof(Index));
+                var isAdmin = HttpContext.Session.GetString(Constants.Constants.Admin);
+                if(isAdmin == "True")
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                
             }
             catch (Exception ex)
             {
@@ -56,6 +68,7 @@ namespace CalorieTracker.Controllers
         }
 
         // GET: UserController/Edit/5
+        [AdminUiAccessRequired]
         public ActionResult Edit(string userName)
         {
             return View(_userService.GetUser(userName).Item2);
@@ -78,6 +91,7 @@ namespace CalorieTracker.Controllers
         }
 
         // GET: UserController/Delete/5
+        [AdminUiAccessRequired]
         public ActionResult DeleteUser(string userName)
         {
             try
@@ -94,6 +108,7 @@ namespace CalorieTracker.Controllers
         // POST: UserController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AdminUiAccessRequired]
         public ActionResult DeleteUser(string userName, IFormCollection collection)
         {
             try

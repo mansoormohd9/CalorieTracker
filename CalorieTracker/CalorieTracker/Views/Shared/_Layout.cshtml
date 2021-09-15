@@ -48,7 +48,7 @@
                         @if (Context.Session.GetString(Constants.IsAuthenticated) == "true")
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Token" asp-action="DeleteToken">Logout</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Token" asp-route-guid=@Context.Session.GetString(Constants.ApiKey) asp-action="DeleteToken">Logout</a>
                             </li>
                         }
 

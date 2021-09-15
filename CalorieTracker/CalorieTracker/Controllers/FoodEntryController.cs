@@ -1,4 +1,5 @@
-﻿using CalorieTrackerApi.Dtos;
+﻿using CalorieTracker.Authentication;
+using CalorieTrackerApi.Dtos;
 using CalorieTrackerApi.Models;
 using CalorieTrackerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace CalorieTracker.Controllers
 {
+    [AuthenticationRequired]
     public class FoodEntryController : Controller
     {
         private readonly IFoodEntryService _foodEntryService;
