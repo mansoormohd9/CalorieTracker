@@ -13,6 +13,18 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                UserName
+            </th>
+            <th>
+                Current Day
+            </th>
+            <th>
+                Current Week
+            </th>
+            <th>
+                Past Week
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -20,7 +32,25 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) 
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                EntriesAdded - @Html.DisplayFor(modelItem => item.CurrentDay.FoodEntriesAdded) |
+                CaloriesConsumed - @Html.DisplayFor(modelItem => item.CurrentDay.CaloriesConsumed) |
+                Average - @Html.DisplayFor(modelItem => item.CurrentDay.AverageCaloriesConsumed)
+            </td>
+            <td>
+                EntriesAdded - @Html.DisplayFor(modelItem => item.CurrentWeek.FoodEntriesAdded) |
+                CaloriesConsumed - @Html.DisplayFor(modelItem => item.CurrentWeek.CaloriesConsumed) |
+                Average - @Html.DisplayFor(modelItem => item.CurrentWeek.AverageCaloriesConsumed)
+            </td>
+            <td>
+                EntriesAdded - @Html.DisplayFor(modelItem => item.PastWeek.FoodEntriesAdded) |
+                CaloriesConsumed - @Html.DisplayFor(modelItem => item.PastWeek.CaloriesConsumed) |
+                Average - @Html.DisplayFor(modelItem => item.PastWeek.AverageCaloriesConsumed)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new {  userName=item.UserName  })
             </td>
         </tr>
 }

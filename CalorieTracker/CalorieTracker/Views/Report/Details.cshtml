@@ -8,12 +8,101 @@
 <h1>Details</h1>
 
 <div>
-    <h4>ReportDto</h4>
+    <h4>User Report - @Model.UserName</h4>
     <hr />
-    <dl class="row">
-    </dl>
+    <h4>Current Day Statistics</h4>
+    <hr />
+    @if (Model.CurrentDay != null)
+    {
+        <dl class="row">
+            <dt class="col-sm-8">
+                @Html.DisplayNameFor(model => model.CurrentDay.FoodEntriesAdded)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CurrentDay.FoodEntriesAdded)
+            </dd>
+            <dt class="col-sm-8">
+                @Html.DisplayNameFor(model => model.CurrentDay.CaloriesConsumed)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CurrentDay.CaloriesConsumed)
+            </dd>
+            <dt class="col-sm-8">
+                @Html.DisplayNameFor(model => model.CurrentDay.AverageCaloriesConsumed)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CurrentDay.AverageCaloriesConsumed)
+            </dd>
+        </dl>
+    }
+    else
+    {
+        <p> No Statistics Exist</p>
+    }
+
+
+    <h4>Current Week Statistics</h4>
+    <hr />
+    @if (Model.CurrentWeek != null)
+    {
+        <dl class="row">
+            <dt class="col-sm-8">
+                @Html.DisplayNameFor(model => model.CurrentWeek.FoodEntriesAdded)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CurrentWeek.FoodEntriesAdded)
+            </dd>
+            <dt class="col-sm-8">
+                @Html.DisplayNameFor(model => model.CurrentWeek.CaloriesConsumed)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CurrentWeek.CaloriesConsumed)
+            </dd>
+            <dt class="col-sm-8">
+                @Html.DisplayNameFor(model => model.CurrentWeek.AverageCaloriesConsumed)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CurrentWeek.AverageCaloriesConsumed)
+            </dd>
+        </dl>
+    }
+    else
+    {
+        <p> No Statistics Exist</p>
+    }
+
+
+    <h4>Past Week Statistics</h4>
+    <hr />
+    @if (Model.PastWeek != null)
+    {
+        <dl class="row">
+            <dt class="col-sm-8">
+                @Html.DisplayNameFor(model => model.PastWeek.FoodEntriesAdded)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PastWeek.FoodEntriesAdded)
+            </dd>
+            <dt class="col-sm-8">
+                @Html.DisplayNameFor(model => model.PastWeek.CaloriesConsumed)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PastWeek.CaloriesConsumed)
+            </dd>
+            <dt class="col-sm-8">
+                @Html.DisplayNameFor(model => model.PastWeek.AverageCaloriesConsumed)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PastWeek.AverageCaloriesConsumed)
+            </dd>
+        </dl>
+    }
+    else
+    {
+        <p> No Statistics Exist</p>
+    }
+
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>
