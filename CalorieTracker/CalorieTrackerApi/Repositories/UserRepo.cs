@@ -65,15 +65,13 @@ namespace CalorieTrackerApi.Repositories
         {
             using(var context = _contextFactory.CreateDbContext())
             {
-                var curUser = context.Users.Include(x => x.FoodEntries).FirstOrDefault(x => x.UserName == user.UserName);
+                var curUser = context.Users.FirstOrDefault(x => x.UserName == user.UserName);
                 if (curUser == null)
                 {
                     return (false, "User doesn't exist");
                 }
-                context.Users.Remove(curUser);
-                context.SaveChanges();
-
-                context.Users.Add(user);
+                curUser.IsAdmin = user.IsAdmin;
+                curUser.CalorieLimit = user.CalorieLimit;
                 context.SaveChanges();
                 return (true, "User update successful");
             }

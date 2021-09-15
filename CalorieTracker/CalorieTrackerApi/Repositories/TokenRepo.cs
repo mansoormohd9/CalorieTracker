@@ -38,9 +38,13 @@ namespace CalorieTrackerApi.Repositories
             using (var context = _contextFactory.CreateDbContext())
             {
                 var userToken = context.UserTokens.FirstOrDefault(x => x.Token == guid);
-                context.UserTokens.Remove(userToken);
-                context.SaveChanges();
-                return (false, "User token Removed");
+                if(userToken != null)
+                {
+                    context.UserTokens.Remove(userToken);
+                    context.SaveChanges();
+                    return (true, "User token Removed");
+                }
+                return (false, "User token deosn't exist");
             }
         }
 

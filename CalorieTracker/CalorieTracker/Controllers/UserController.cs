@@ -50,16 +50,8 @@ namespace CalorieTracker.Controllers
             try
             {
                 _userViewService.GetOrCreateUser(userDto, HttpContext);
-                var isAdmin = HttpContext.Session.GetString(Constants.Constants.Admin);
-                if(isAdmin == "True")
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                
+                return RedirectToAction("Index", "FoodEntry");
+
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿using CalorieTracker.Authentication;
+﻿using AutoMapper;
+using CalorieTracker.Authentication;
 using CalorieTrackerApi.Dtos;
 using CalorieTrackerApi.Models;
 using CalorieTrackerApi.Services.Interfaces;
@@ -15,10 +16,12 @@ namespace CalorieTracker.Controllers
     public class FoodEntryController : Controller
     {
         private readonly IFoodEntryService _foodEntryService;
+        private readonly IMapper _mapper;
 
-        public FoodEntryController(IFoodEntryService foodEntryService)
+        public FoodEntryController(IFoodEntryService foodEntryService, IMapper mapper)
         {
             _foodEntryService = foodEntryService;
+            _mapper = mapper;
         }
 
         // GET: FoodEntryController
@@ -60,7 +63,12 @@ namespace CalorieTracker.Controllers
         {
             try
             {
-                _foodEntryService.CreateFoodEntry(HttpContext.Session.GetString(Constants.Constants.UserNamekey), foodEntry);
+                var createResult = _foodEntryService.CreateFoodEntry(HttpContext.Session.GetString(Constants.Constants.UserNamekey), foodEntry);
+                if (!createResult.Item1)
+                {
+                    ModelState.AddModelError(nameof(FoodEntryDto.Calories), createResult.Item2);
+                    return View(_mapper.Map<FoodEntryDto>(foodEntry));
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -89,10 +97,15 @@ namespace CalorieTracker.Controllers
         {
             try
             {
-                _foodEntryService.UpdateFoodEntry(HttpContext.Session.GetString(Constants.Constants.UserNamekey), foodEntry);
+                var updateResult = _foodEntryService.UpdateFoodEntry(HttpContext.Session.GetString(Constants.Constants.UserNamekey), foodEntry);
+                if (!updateResult.Item1)
+                {
+                    ModelState.AddModelError(nameof(FoodEntryDto.Calories), updateResult.Item2);
+                    return View(_mapper.Map<FoodEntryDto>(foodEntry));
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
                 return RedirectToAction("Error", "Home");
             }

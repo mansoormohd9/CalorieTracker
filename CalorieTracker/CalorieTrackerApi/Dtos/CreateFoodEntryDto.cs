@@ -12,5 +12,7 @@ namespace CalorieTrackerApi.Dtos
         public string Name { get; set; }
         [Required]
         public int Calories { get; set; }
+        [Required]
+        public DateTime Date { get; set; }
     }
 }

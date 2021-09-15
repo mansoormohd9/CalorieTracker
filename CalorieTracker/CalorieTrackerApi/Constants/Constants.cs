@@ -9,5 +9,6 @@ namespace CalorieTrackerApi.Constants
     {
         public const string ApiKey = "ApiKey";
         public const int TokenExpiry = 6; //In Hours
+        public const string CalorieThresholdLimit = "Reached Colorie threshold limit";
     }
 }

@@ -11,6 +11,7 @@ namespace CalorieTrackerApi.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public string UserName { get; set; }
+        public float CalorieLimit { get; set; }
         public bool IsAdmin { get; set; }
 
         public ICollection<FoodEntry> FoodEntries { get; } = new List<FoodEntry>();

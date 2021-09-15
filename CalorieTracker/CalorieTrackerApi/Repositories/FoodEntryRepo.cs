@@ -69,6 +69,16 @@ namespace CalorieTrackerApi.Repositories
             }
         }
 
+        public float GetCaloriesAddedForDate(string userName, FoodEntry foodEntry)
+        {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                var user = context.Users.Include(x => x.FoodEntries).FirstOrDefault(x => x.UserName == userName);
+                return user.FoodEntries.Where(x => ((x.Date.Date == foodEntry.Date.Date) && (x.Guid != foodEntry.Guid)))
+                                        .Sum(y => y.Calories);
+            }
+        }
+
         public (bool, string) UpdateFoodEntry(string userName, FoodEntry foodEntry)
         {
             using (var context = _contextFactory.CreateDbContext())

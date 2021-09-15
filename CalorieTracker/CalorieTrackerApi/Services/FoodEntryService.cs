@@ -13,16 +13,23 @@ namespace CalorieTrackerApi.Services
     public class FoodEntryService: IFoodEntryService
     {
         private readonly IFoodEntryRepo _foodEntryRepo;
+        private readonly IUserRepo _userRepo;
         private readonly IMapper _mapper;
 
-        public FoodEntryService(IFoodEntryRepo foodEntryRepo, IMapper mapper)
+        public FoodEntryService(IFoodEntryRepo foodEntryRepo, IUserRepo userRepo, IMapper mapper)
         {
             _foodEntryRepo = foodEntryRepo;
+            _userRepo = userRepo;
             _mapper = mapper;
         }
 
         public (bool, string) CreateFoodEntry(string userName, CreateFoodEntryDto foodEntry)
         {
+            var foodEntryModel = _mapper.Map<FoodEntry>(foodEntry);
+            if (!CheckCalorieThreshold(userName, foodEntryModel))
+            {
+                return (false, Constants.Constants.CalorieThresholdLimit);
+            }
             return _foodEntryRepo.CreateFoodEntry(userName, _mapper.Map<FoodEntry>(foodEntry));
         }
 
@@ -49,7 +56,19 @@ namespace CalorieTrackerApi.Services
 
         public (bool, string) UpdateFoodEntry(string userName, UpdateFoodEntryDto foodEntry)
         {
+            var foodEntryModel = _mapper.Map<FoodEntry>(foodEntry);
+            if(!CheckCalorieThreshold(userName, foodEntryModel))
+            {
+                return (false, Constants.Constants.CalorieThresholdLimit);
+            }
             return _foodEntryRepo.UpdateFoodEntry(userName, _mapper.Map<FoodEntry>(foodEntry));
+        }
+
+        private bool CheckCalorieThreshold(string userName, FoodEntry foodEntry)
+        {
+            var userCalorieLimit = _userRepo.GetUser(userName).CalorieLimit;//This can be added to session or cached            
+            var updatedCalories = _foodEntryRepo.GetCaloriesAddedForDate(userName, foodEntry) + foodEntry.Calories;
+            return userCalorieLimit > updatedCalories;
         }
     }
 }

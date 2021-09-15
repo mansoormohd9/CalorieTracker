@@ -20,18 +20,15 @@ namespace CalorieTrackerApi.Mappings
             CreateMap<UserDto, User>();
 
             CreateMap<FoodEntry, UpdateFoodEntryDto>();
-            CreateMap<UpdateFoodEntryDto, FoodEntry>()
-                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => DateTime.UtcNow));
+            CreateMap<UpdateFoodEntryDto, FoodEntry>();
 
             CreateMap<FoodEntry, CreateFoodEntryDto>();
             CreateMap<CreateFoodEntryDto, FoodEntry>()
-                .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => Guid.NewGuid()))
-                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => DateTime.UtcNow));
+                .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => Guid.NewGuid()));
 
             CreateMap<FoodEntry, FoodEntryDto>();
 
             CreateMap<CreateTokenDto, UserToken>()
-                .ForMember(dest => dest.LastLogin, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ForMember(dest => dest.Token, opt => opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(dest => dest.Expiry, opt => opt.MapFrom(src => DateTime.UtcNow.AddHours(Constants.Constants.TokenExpiry)))
                 .ForMember(dest => dest.IpAddress, opt => opt.MapFrom<IPAddressResolver>())
@@ -42,6 +39,10 @@ namespace CalorieTrackerApi.Mappings
             CreateMap<TokenDto, UserToken>();
             CreateMap<UserToken, TokenDto>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName));
+
+            //Dto to Dto
+            CreateMap<UpdateFoodEntryDto, FoodEntryDto>();
+            CreateMap<CreateFoodEntryDto, FoodEntryDto>();
         }
     }
 
