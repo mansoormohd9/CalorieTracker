@@ -44,6 +44,12 @@ namespace CalorieTrackerApi.Services
             return _mapper.Map<List<FoodEntryDto>>(foodEntries);
         }
 
+        public List<FoodEntryDto> GetFoodEntries(string userName, DateTime startDate, DateTime endDate)
+        {
+            var foodEntries = _foodEntryRepo.GetFoodEntries(userName, startDate, endDate);
+            return _mapper.Map<List<FoodEntryDto>>(foodEntries);
+        }
+
         public (bool, FoodEntryDto) GetFoodEntry(string userName, Guid guid)
         {
             var foodEntry = _foodEntryRepo.GetFoodEntry(userName, guid);

@@ -124,5 +124,25 @@ namespace CalorieTracker.Controllers
                 return RedirectToAction("Error", "Home");
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Filter(int id, UpdateFoodEntryDto foodEntry)
+        {
+            try
+            {
+                var updateResult = _foodEntryService.UpdateFoodEntry(HttpContext.Session.GetString(Constants.Constants.UserNamekey), foodEntry);
+                if (!updateResult.Item1)
+                {
+                    ModelState.AddModelError(nameof(FoodEntryDto.Calories), updateResult.Item2);
+                    return View(_mapper.Map<FoodEntryDto>(foodEntry));
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+        }
     }
 }
