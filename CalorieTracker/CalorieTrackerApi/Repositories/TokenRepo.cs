@@ -83,7 +83,7 @@ namespace CalorieTrackerApi.Repositories
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                return context.UserTokens.FirstOrDefault(x => x.User.UserName == userName);
+                return context.UserTokens.Include(x => x.User).FirstOrDefault(x => x.User.UserName == userName);
             }
         }
     }
