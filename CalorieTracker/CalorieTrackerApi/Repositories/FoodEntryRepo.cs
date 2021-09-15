@@ -60,6 +60,24 @@ namespace CalorieTrackerApi.Repositories
             }
         }
 
+        public List<FoodEntry> GetFoodEntries(DateTime startDate, DateTime endDate)
+        {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                var foodEntries = context.FoodEntries.Include(x => x.User).Where(x => x.Date.Date >= startDate.Date && x.Date.Date <= endDate.Date);
+                return foodEntries.ToList();
+            }
+        }
+
+        public List<FoodEntry> GetFoodEntries(string userName, DateTime startDate, DateTime endDate)
+        {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                var foodEntries = context.FoodEntries.Include(x => x.User).Where(x => x.User.UserName == userName && x.Date.Date >= startDate.Date && x.Date.Date <= endDate.Date);
+                return foodEntries.ToList();
+            }
+        }
+
         public FoodEntry GetFoodEntry(string userName, Guid guid)
         {
             using (var context = _contextFactory.CreateDbContext())

@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CalorieTrackerApi.Authentication;
+using CalorieTrackerApi.Dtos;
+using CalorieTrackerApi.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,38 +14,30 @@ namespace CalorieTrackerApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AdminAccessRequired]
     public class ReportController : ControllerBase
     {
+        private readonly IReportService _reportService;
+        private readonly ILogger _logger;
+
+        public ReportController(ILogger<ReportController> logger, IReportService reportService)
+        {
+            _logger = logger;
+            _reportService = reportService;
+        }
+
         // GET: api/<ReportController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<ReportDto> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _reportService.GetUserReports();
         }
 
         // GET api/<ReportController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{userName}")]
+        public ReportDto Get(string userName)
         {
-            return "value";
-        }
-
-        // POST api/<ReportController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<ReportController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ReportController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return _reportService.GetUserReports(userName)[0];
         }
     }
 }

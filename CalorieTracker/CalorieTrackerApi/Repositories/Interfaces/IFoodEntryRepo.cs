@@ -10,6 +10,8 @@ namespace CalorieTrackerApi.Repositories.Interfaces
     public interface IFoodEntryRepo
     {
         List<FoodEntry> GetFoodEntries(string userName);
+        List<FoodEntry> GetFoodEntries(DateTime startDate, DateTime endDate);
+        List<FoodEntry> GetFoodEntries(string userName, DateTime startDate, DateTime endDate);
 
         FoodEntry GetFoodEntry(string userName, Guid guid);
         float GetCaloriesAddedForDate(string userName, FoodEntry foodEntry);

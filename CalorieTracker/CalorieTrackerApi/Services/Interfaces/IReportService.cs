@@ -1,11 +1,13 @@
-﻿using System;
+﻿using CalorieTrackerApi.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace CalorieTrackerApi.Services.Interfaces
 {
-    interface IReportService
+    public interface IReportService
     {
+        List<ReportDto> GetUserReports(string userName = null);
     }
 }

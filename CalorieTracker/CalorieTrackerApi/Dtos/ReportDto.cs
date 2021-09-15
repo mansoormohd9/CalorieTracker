@@ -7,7 +7,8 @@ namespace CalorieTrackerApi.Dtos
 {
     public class ReportDto
     {
-        public EntryStats LastSevenDays { get; set; }
+        public string UserName { get; set; }
+        public EntryStats CurrentWeek { get; set; }
         public EntryStats PastWeek { get; set; }
         public EntryStats CurrentDay { get; set; }
 

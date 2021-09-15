@@ -86,6 +86,7 @@ namespace CalorieTrackerApi
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFoodEntryService, FoodEntryService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IReportService, ReportService>();
 
             //Repos
             services.AddScoped<IUserRepo, UserRepo>();
