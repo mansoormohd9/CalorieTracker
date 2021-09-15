@@ -50,9 +50,9 @@
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Refresh Token", "Edit", new { userName = item.UserName }) |
+                @Html.ActionLink("Details", "Details", new { userName = item.UserName }) |
+                @Html.ActionLink("Delete", "DeleteToken", new { guid = item.Token })
             </td>
         </tr>
 }

@@ -1,4 +1,5 @@
-﻿using CalorieTrackerApi.Services.Interfaces;
+﻿using CalorieTrackerApi.Dtos;
+using CalorieTrackerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,13 +21,27 @@ namespace CalorieTracker.Controllers
         // GET: TokenController
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                return View(_tokenService.GetUserTokens());
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // GET: TokenController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string userName)
         {
-            return View();
+            try
+            {
+                return View(_tokenService.GetUserToken(userName));
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // GET: TokenController/Create
@@ -38,47 +53,59 @@ namespace CalorieTracker.Controllers
         // POST: TokenController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(CreateTokenDto createTokenDto)
         {
             try
             {
+                _ = _tokenService.CreateUserToken(createTokenDto);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return RedirectToAction("Error", "Home");
             }
         }
 
         // GET: TokenController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string userName)
         {
-            return View();
+            try
+            {
+                return View(_tokenService.GetUserToken(userName));
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // POST: TokenController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(CreateTokenDto createTokenDto)
         {
             try
             {
+                _ = _tokenService.RefreshUserToken(createTokenDto);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return RedirectToAction("Error", "Home");
             }
         }
 
         // GET: TokenController/Delete/5
-        public ActionResult DeleteToken()
+        public ActionResult DeleteToken(Guid guid)
         {
             try
             {
-                _tokenService.DeleteUserToken(Guid.Parse(HttpContext.Session.GetString(Constants.Constants.ApiKey)));
-                HttpContext.Session.Clear();
-                return RedirectToAction("Create", "User");
+                _tokenService.DeleteUserToken(guid);
+                if (guid.Equals(HttpContext.Session.GetString(Constants.Constants.ApiKey)))
+                {
+                    HttpContext.Session.Clear();
+                }
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
