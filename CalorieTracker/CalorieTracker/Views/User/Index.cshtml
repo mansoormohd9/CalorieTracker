@@ -27,23 +27,24 @@
     </thead>
     <tbody>
 
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CalorieLimit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsAdmin)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { userName = item.UserName }) |
-                @Html.ActionLink("Details", "Details", new { userName = item.UserName }) |
-                @Html.ActionLink("Delete", "DeleteUser", "User", new { userName = item.UserName })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CalorieLimit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAdmin)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { userName = item.UserName }) |
+                    @Html.ActionLink("Details", "Details", new { userName = item.UserName }) |
+                    @Html.ActionLink("Delete", "DeleteUser", "User", new { userName = item.UserName })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

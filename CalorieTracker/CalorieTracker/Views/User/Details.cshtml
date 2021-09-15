@@ -35,3 +35,4 @@
     @Html.ActionLink("Edit", "Edit", new { userName = Model.UserName }) |
     <a asp-action="Index">Back to List</a>
 </div>
+@await Html.PartialAsync("../FoodEntry/FoodEntries", Model.FoodEntries)

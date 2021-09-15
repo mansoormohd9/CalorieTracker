@@ -14,6 +14,6 @@ namespace CalorieTrackerApi.Dtos
         public bool IsAdmin { get; set; }
         [DefaultValue(2100)]
         public float CalorieLimit { get; set; }
-        public ICollection<CreateFoodEntryDto> FoodEntries { get; set; }
+        public ICollection<FoodEntryDto> FoodEntries { get; set; }
     }
 }
