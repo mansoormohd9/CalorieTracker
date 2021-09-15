@@ -4,6 +4,38 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#nameAutoComplete").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "https://api.nutritionix.com/v1_1/search",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        "appId": "f1413ae5",
+                        "appKey": "45eefd244070bfd3054e6fa9ebaccd26",
+                        "query": request.term,
+                        "fields": ["item_name", "brand_name", "upc", "nf_calories"],
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data.hits, function (item) {
+                            return { label: item.fields.item_name, value: item.fields.item_name, id: item.fields.item_name, calorieValue: item.fields.nf_calories };
+                        }));
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                $('#calorieAutoComplete').val(ui.item.calorieValue);
+                console.log("Selected: " + ui.item.value + " aka " + ui.item.id);
+            }
+        });
+    });
+</script>
 
 <h1>Create</h1>
 
@@ -15,12 +47,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input id="nameAutoComplete" asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Calories" class="control-label"></label>
-                <input asp-for="Calories" class="form-control" />
+                <input id="calorieAutoComplete" asp-for="Calories" class="form-control" />
                 <span asp-validation-for="Calories" class="text-danger"></span>
             </div>
             <div class="form-group">
