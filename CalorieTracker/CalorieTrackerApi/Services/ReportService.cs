@@ -95,6 +95,25 @@ namespace CalorieTrackerApi.Services
             return userReportDict.Values.ToList();
         }
 
+        public IEnumerable<DateReportDto> GetUserReportGroupedByDate(string userName)
+        {
+            var userCalorieLimit = _userRepo.GetUser(userName).CalorieLimit;
+            var foodEntries = _foodEntryRepo.GetFoodEntries(userName, DateTime.MinValue, DateTime.MaxValue);
+            var statsByDate = foodEntries.GroupBy(x => x.Date.Date)
+                                            .Select(s => new DateReportDto
+                                            {
+                                                Date = s.Key,
+                                                EntryStats = new EntryStats
+                                                {
+                                                    FoodEntriesAdded = s.Count(),
+                                                    CaloriesConsumed = s.Sum(c => c.Calories),
+                                                    AverageCaloriesConsumed = s.Average(c => c.Calories)
+                                                },
+                                                DailyLimitReached = s.Sum(c => c.Calories) >= userCalorieLimit
+                                            });
+            return statsByDate;
+        }
+
         private IEnumerable<TempStat> GetTempStats(DateTime startDate, DateTime endDate, string userName = null)
         {
             var foodEntries = userName == null ? _foodEntryRepo.GetFoodEntries(startDate, endDate) : _foodEntryRepo.GetFoodEntries(userName, startDate, endDate);

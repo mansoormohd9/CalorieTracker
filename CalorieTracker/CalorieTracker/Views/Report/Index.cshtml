@@ -5,11 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>User Reports</h1>
 <table class="table">
     <thead>
         <tr>
@@ -50,7 +46,8 @@
                 Average - @Html.DisplayFor(modelItem => item.PastWeek.AverageCaloriesConsumed)
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", new {  userName=item.UserName  })
+                @Html.ActionLink("Details", "Details", new { userName = item.UserName }) |
+                @Html.ActionLink("Details By Date", "DetailsByDate", new { userName = item.UserName })
             </td>
         </tr>
 }

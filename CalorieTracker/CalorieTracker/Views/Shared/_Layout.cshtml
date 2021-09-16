@@ -39,6 +39,12 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Create">Login</a>
                             </li>
                         }
+                        @if (Context.Session.GetString(Constants.IsAuthenticated) == "true" && Context.Session.GetString(Constants.Admin) != "True")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-route-username=@Context.Session.GetString(Constants.UserNamekey) asp-action="DetailsByDate">Daily Statistics</a>
+                            </li>
+                        }
                         @if (Context.Session.GetString(Constants.Admin) == "True")
                         {
                             <li class="nav-item">

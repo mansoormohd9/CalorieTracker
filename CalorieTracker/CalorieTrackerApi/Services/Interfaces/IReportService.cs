@@ -9,5 +9,6 @@ namespace CalorieTrackerApi.Services.Interfaces
     public interface IReportService
     {
         List<ReportDto> GetUserReports(string userName = null);
+        IEnumerable<DateReportDto> GetUserReportGroupedByDate(string userName);
     }
 }

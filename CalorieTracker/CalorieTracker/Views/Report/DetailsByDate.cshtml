@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CalorieTrackerApi.Dtos.DateReportDto>
+
+@{
+    ViewData["Title"] = "DetailsByDate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>DetailsByDate</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DailyLimitReached)
+            </th>
+            <th>
+                Daily Statistics
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DailyLimitReached)
+            </td>
+            <td>
+                Food Entries Added - @Html.DisplayFor(modelItem => item.EntryStats.FoodEntriesAdded) |
+                Calories Consumed - @Html.DisplayFor(modelItem => item.EntryStats.CaloriesConsumed) |
+                Average Calories Consumed - @Html.DisplayFor(modelItem => item.EntryStats.AverageCaloriesConsumed)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

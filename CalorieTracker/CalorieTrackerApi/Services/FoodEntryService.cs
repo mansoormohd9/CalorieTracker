@@ -74,9 +74,11 @@ namespace CalorieTrackerApi.Services
 
         private bool CheckCalorieThreshold(string userName, FoodEntry foodEntry)
         {
-            var userCalorieLimit = _userRepo.GetUser(userName).CalorieLimit;//This can be added to session or cached            
-            var updatedCalories = _foodEntryRepo.GetCaloriesAddedForDate(userName, foodEntry) + foodEntry.Calories;
-            return userCalorieLimit > updatedCalories;
+            //Enable following code if required as per requirement
+            //var userCalorieLimit = _userRepo.GetUser(userName).CalorieLimit;//This can be added to session or cached            
+            //var updatedCalories = _foodEntryRepo.GetCaloriesAddedForDate(userName, foodEntry) + foodEntry.Calories;
+            //return userCalorieLimit > updatedCalories;
+            return true;
         }
     }
 }

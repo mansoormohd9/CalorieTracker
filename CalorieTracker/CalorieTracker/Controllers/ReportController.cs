@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace CalorieTracker.Controllers
 {
-    [AdminUiAccessRequired]
     public class ReportController : Controller
     {
         private readonly IReportService _reportService;
@@ -20,15 +19,24 @@ namespace CalorieTracker.Controllers
         }
 
         // GET: ReportController
+        [AdminUiAccessRequired]
         public ActionResult Index()
         {
             return View(_reportService.GetUserReports());
         }
 
         // GET: ReportController/Details/5
+        [AdminUiAccessRequired]
         public ActionResult Details(string userName)
         {
             return View(_reportService.GetUserReports(userName)[0]);
+        }
+
+        // GET: ReportController/Details/5
+        [AuthenticationRequired]
+        public ActionResult DetailsByDate(string userName)
+        {
+            return View(_reportService.GetUserReportGroupedByDate(userName));
         }
     }
 }
