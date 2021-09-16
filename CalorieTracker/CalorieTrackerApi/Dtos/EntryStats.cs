@@ -8,7 +8,7 @@ namespace CalorieTrackerApi.Dtos
     public class EntryStats
     {
         public int FoodEntriesAdded { get; set; }
-        public float CaloriesConsumed { get; set; }
+        public double CaloriesConsumed { get; set; }
         public double AverageCaloriesConsumed { get; set; }
     }
 }

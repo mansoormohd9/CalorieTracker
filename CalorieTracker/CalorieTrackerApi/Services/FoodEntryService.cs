@@ -46,7 +46,7 @@ namespace CalorieTrackerApi.Services
 
         public List<FoodEntryDto> GetFoodEntries(string userName, FoodEntryFilter foodEntryFilter)
         {
-            var startDate = (foodEntryFilter.StartDate > foodEntryFilter.EndDate) ? foodEntryFilter.StartDate : foodEntryFilter.EndDate;
+            var startDate = (foodEntryFilter.StartDate < foodEntryFilter.EndDate) ? foodEntryFilter.StartDate : foodEntryFilter.EndDate;
             var endDate = (foodEntryFilter.EndDate > foodEntryFilter.StartDate) ? foodEntryFilter.EndDate : foodEntryFilter.StartDate;
             var foodEntries = _foodEntryRepo.GetFoodEntries(userName, startDate, endDate);
             return _mapper.Map<List<FoodEntryDto>>(foodEntries);

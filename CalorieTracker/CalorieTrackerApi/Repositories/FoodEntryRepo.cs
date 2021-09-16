@@ -87,7 +87,7 @@ namespace CalorieTrackerApi.Repositories
             }
         }
 
-        public float GetCaloriesAddedForDate(string userName, FoodEntry foodEntry)
+        public double GetCaloriesAddedForDate(string userName, FoodEntry foodEntry)
         {
             using (var context = _contextFactory.CreateDbContext())
             {

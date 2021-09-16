@@ -14,7 +14,7 @@ namespace CalorieTrackerApi.Repositories.Interfaces
         List<FoodEntry> GetFoodEntries(string userName, DateTime startDate, DateTime endDate);
 
         FoodEntry GetFoodEntry(string userName, Guid guid);
-        float GetCaloriesAddedForDate(string userName, FoodEntry foodEntry);
+        double GetCaloriesAddedForDate(string userName, FoodEntry foodEntry);
 
         (bool, string) CreateFoodEntry(string userName, FoodEntry foodEntry);
 

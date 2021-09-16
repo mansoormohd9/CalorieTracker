@@ -11,7 +11,7 @@ namespace CalorieTrackerApi.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public string Name { get; set; }
-        public int Calories { get; set; }
+        public double Calories { get; set; }
         public DateTime Date { get; set; }
         public Guid Guid { get; set; }
 

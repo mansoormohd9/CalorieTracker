@@ -27,7 +27,7 @@ namespace CalorieTrackerApi.Services
         {
             public string UserName { get; set; }
             public int EntriesAdded { get; set; }
-            public float CaloriesConsumed { get; set; }
+            public double CaloriesConsumed { get; set; }
             public double AverageCalories { get; set; }
         }
 
