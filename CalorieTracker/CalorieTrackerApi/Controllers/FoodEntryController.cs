@@ -39,6 +39,14 @@ namespace CalorieTrackerApi.Controllers
             return _foodEntryService.GetFoodEntries(Utils.GetUsernameFromContext(HttpContext));
         }
 
+        // GET: api/<FoodEntryController>
+        [HttpGet]
+        [Route("api/foodEntry/filter")]
+        public IEnumerable<FoodEntryDto> Get(FoodEntryFilter foodEntryFilter)
+        {
+            return _foodEntryService.GetFoodEntries(Utils.GetUsernameFromContext(HttpContext), foodEntryFilter);
+        }
+
         // GET api/<FoodEntryController>/5
         [HttpGet("{guid}")]
         public IActionResult Get(Guid guid)

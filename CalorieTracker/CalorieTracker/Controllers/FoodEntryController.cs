@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CalorieTracker.Authentication;
+using CalorieTracker.ViewModel;
 using CalorieTrackerApi.Dtos;
 using CalorieTrackerApi.Models;
 using CalorieTrackerApi.Services.Interfaces;
@@ -25,11 +26,17 @@ namespace CalorieTracker.Controllers
         }
 
         // GET: FoodEntryController
-        public ActionResult Index()
+        public ActionResult Index(FoodEntryFilter foodEntryFilter)
         {
             try
             {
-                return View(_foodEntryService.GetFoodEntries(HttpContext.Session.GetString(Constants.Constants.UserNamekey)));
+                var foodEntries = _foodEntryService.GetFoodEntries(HttpContext.Session.GetString(Constants.Constants.UserNamekey), foodEntryFilter);
+                var foodEntryViewModel = new FoodEntryViewModel
+                {
+                    FoodEntries = foodEntries,
+                    FoodEntryFilter = foodEntryFilter
+                };
+                return View(foodEntryViewModel);
             }
             catch
             {
@@ -127,17 +134,17 @@ namespace CalorieTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Filter(int id, UpdateFoodEntryDto foodEntry)
+        public ActionResult Filter(int id, FoodEntryFilter foodEntryFilter)
         {
             try
             {
-                var updateResult = _foodEntryService.UpdateFoodEntry(HttpContext.Session.GetString(Constants.Constants.UserNamekey), foodEntry);
-                if (!updateResult.Item1)
+                var foodEntries = _foodEntryService.GetFoodEntries(HttpContext.Session.GetString(Constants.Constants.UserNamekey), foodEntryFilter);
+                var foodEntryViewModel = new FoodEntryViewModel
                 {
-                    ModelState.AddModelError(nameof(FoodEntryDto.Calories), updateResult.Item2);
-                    return View(_mapper.Map<FoodEntryDto>(foodEntry));
-                }
-                return RedirectToAction(nameof(Index));
+                    FoodEntries = foodEntries,
+                    FoodEntryFilter = foodEntryFilter
+                };
+                return RedirectToAction(nameof(Index), foodEntryViewModel);
             }
             catch (Exception ex)
             {

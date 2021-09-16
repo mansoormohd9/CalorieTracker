@@ -10,6 +10,7 @@ namespace CalorieTrackerApi.Services.Interfaces
     public interface IFoodEntryService
     {
         List<FoodEntryDto> GetFoodEntries(string userName);
+        List<FoodEntryDto> GetFoodEntries(string userName, FoodEntryFilter foodEntryFilter);
 
         (bool, FoodEntryDto) GetFoodEntry(string userName, Guid guid);
 

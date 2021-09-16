@@ -16,11 +16,8 @@
                 <input asp-for="UserName" class="form-control" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsAdmin" type="hidden" value="false" />
-                </label>
-            </div>
+            <input class="form-check-input" asp-for="IsAdmin" type="hidden" value="false" />
+            <input class="form-check-input" asp-for="CalorieLimit" type="hidden" value="2100" />
             <div class="form-group">
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>
