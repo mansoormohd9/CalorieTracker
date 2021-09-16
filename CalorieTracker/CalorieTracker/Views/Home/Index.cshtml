@@ -3,6 +3,14 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">Calorie Tracking App</a>.</p>
+    <h1 class="display-4">Welcome to</h1>
+    <p>Calorie Tracking App</p>
+    @if (Context.Session.GetString(Constants.IsAuthenticated) == "true")
+    {
+        @Html.ActionLink("Logout", "DeleteToken", "Token")
+    }
+    else
+    {
+        @Html.ActionLink("Login", "Create", "User")
+    }
 </div>

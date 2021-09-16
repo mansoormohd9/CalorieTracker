@@ -31,6 +31,7 @@ namespace CalorieTrackerApi.Mappings
             CreateMap<CreateTokenDto, UserToken>()
                 .ForMember(dest => dest.Token, opt => opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(dest => dest.Expiry, opt => opt.MapFrom(src => DateTime.UtcNow.AddHours(Constants.Constants.TokenExpiry)))
+                .ForMember(dest => dest.LastLogin, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ForMember(dest => dest.IpAddress, opt => opt.MapFrom<IPAddressResolver>())
                 //.ForMember(dest => dest.User, opt => opt.MapFrom<UserResolver>())
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom<UserIdResolver>());
