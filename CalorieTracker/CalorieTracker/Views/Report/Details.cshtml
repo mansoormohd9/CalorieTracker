@@ -10,7 +10,7 @@
 <div>
     <h4>User Report - @Model.UserName</h4>
     <hr />
-    <h4>Current Day Statistics</h4>
+    <h4>Current Day Statistics: @Html.DisplayFor(model => model.CurrentDay.StartDate)</h4>
     <hr />
     @if (Model.CurrentDay != null)
     {
@@ -41,7 +41,7 @@
     }
 
 
-    <h4>Current Week Statistics</h4>
+    <h4>Current Week Statistics: @Html.DisplayFor(model => model.CurrentWeek.StartDate) - @Html.DisplayFor(model => model.CurrentWeek.EndDate)</h4>
     <hr />
     @if (Model.CurrentWeek != null)
     {
@@ -72,7 +72,7 @@
     }
 
 
-    <h4>Past Week Statistics</h4>
+    <h4>Past Week Statistics: @Html.DisplayFor(model => model.PastWeek.StartDate) - @Html.DisplayFor(model => model.PastWeek.EndDate)</h4>
     <hr />
     @if (Model.PastWeek != null)
     {

@@ -13,13 +13,13 @@
                 UserName
             </th>
             <th>
-                Current Day
+                Current Day: @DateTime.Today.ToShortDateString()
             </th>
             <th>
-                Current Week
+                Current Week: @DateTime.Today.AddDays(-6).ToShortDateString() to @DateTime.Today.ToShortDateString()
             </th>
             <th>
-                Past Week
+                Past Week: @DateTime.Today.AddDays(-12).AddSeconds(-1).ToShortDateString() to @DateTime.Today.AddDays(-6).AddSeconds(-1).ToShortDateString()
             </th>
             <th></th>
         </tr>

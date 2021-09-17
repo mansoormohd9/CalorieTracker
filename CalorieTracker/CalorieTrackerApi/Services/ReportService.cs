@@ -29,14 +29,15 @@ namespace CalorieTrackerApi.Services
             public int EntriesAdded { get; set; }
             public double CaloriesConsumed { get; set; }
             public double AverageCalories { get; set; }
+            public DateTime StartDate { get; set; }
+            public DateTime EndDate { get; set; }
         }
 
         public List<ReportDto> GetUserReports(string userName = null)
         {
             var baseDate = DateTime.Today;
             var today = baseDate;
-            var yesterday = baseDate.AddDays(-1);
-            var thisWeekStart = baseDate.AddDays(-(int)baseDate.DayOfWeek);
+            var thisWeekStart = baseDate.AddDays(-6);
             var thisWeekEnd = thisWeekStart.AddDays(7).AddSeconds(-1);
             var lastWeekStart = thisWeekStart.AddDays(-7);
             var lastWeekEnd = thisWeekStart.AddSeconds(-1);
@@ -65,6 +66,8 @@ namespace CalorieTrackerApi.Services
                     FoodEntriesAdded = entry.EntriesAdded,
                     CaloriesConsumed = entry.CaloriesConsumed,
                     AverageCaloriesConsumed = entry.AverageCalories,
+                    StartDate = entry.StartDate,
+                    EndDate = entry.EndDate
                 };
             }
 
@@ -77,6 +80,8 @@ namespace CalorieTrackerApi.Services
                     FoodEntriesAdded = entry.EntriesAdded,
                     CaloriesConsumed = entry.CaloriesConsumed,
                     AverageCaloriesConsumed = entry.AverageCalories,
+                    StartDate = entry.StartDate,
+                    EndDate = entry.EndDate
                 };
             }
 
@@ -89,6 +94,8 @@ namespace CalorieTrackerApi.Services
                     FoodEntriesAdded = entry.EntriesAdded,
                     CaloriesConsumed = entry.CaloriesConsumed,
                     AverageCaloriesConsumed = entry.AverageCalories,
+                    StartDate = entry.StartDate,
+                    EndDate = entry.EndDate
                 };
             }
 
@@ -123,7 +130,9 @@ namespace CalorieTrackerApi.Services
                                                 UserName = s.Key,
                                                 EntriesAdded = s.Count(),
                                                 CaloriesConsumed = s.Sum(c => c.Calories),
-                                                AverageCalories = s.Average(c => c.Calories)
+                                                AverageCalories = s.Average(c => c.Calories),
+                                                StartDate = startDate.Date,
+                                                EndDate = endDate.Date
                                             });
 
             return weekStats;
