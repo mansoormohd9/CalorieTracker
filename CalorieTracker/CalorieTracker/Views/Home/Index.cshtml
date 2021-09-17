@@ -7,7 +7,7 @@
     <p>Calorie Tracking App</p>
     @if (Context.Session.GetString(Constants.IsAuthenticated) == "true")
     {
-        @Html.ActionLink("Logout", "DeleteToken", "Token")
+        <a class="nav-link text-dark" asp-area="" asp-controller="Token" asp-route-guid=@Context.Session.GetString(Constants.ApiKey) asp-action="DeleteToken">Logout</a>
     }
     else
     {
