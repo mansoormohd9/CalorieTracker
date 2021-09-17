@@ -18,6 +18,12 @@ Application to track calories consumed by users.
 1. ASP.NET MVC Razor Pages
 2. Bootstrap - Material UI and Jquery
 
+## Video Links
+- Web App
+- [![Watch the video](https://img.youtube.com/vi/62HxaMTiEwk/0.jpg)](https://youtu.be/62HxaMTiEwk)
+- Api 
+- [![Watch the video](https://img.youtube.com/vi/WqlSzCjQTTI/0.jpg)](https://youtu.be/WqlSzCjQTTI)
+
 ## Quick Overview of features
 The app currently supports two different types of user roles:
 - Regular User
