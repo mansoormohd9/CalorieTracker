@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using CalorieTrackerApi.Data;
+using CalorieTrackerTests.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
