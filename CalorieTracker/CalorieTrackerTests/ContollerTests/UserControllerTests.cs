@@ -18,10 +18,6 @@ namespace CalorieTrackerTests.ContollerTests
         public void OneTimeSetup()
         {
             _factory = new ControllerTestBase();
-            _client = _factory.CreateClient(new WebApplicationFactoryClientOptions
-            {
-                AllowAutoRedirect = false
-            });
         }
 
 
