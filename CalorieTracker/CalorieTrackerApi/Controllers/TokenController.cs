@@ -62,7 +62,6 @@ namespace CalorieTrackerApi.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] CreateTokenDto tokenDto)
         {
-            IActionResult result = Ok();
             try
             {
                 var actResult = _tokenService.CreateUserToken(tokenDto);
@@ -70,6 +69,7 @@ namespace CalorieTrackerApi.Controllers
                 {
                     return BadRequest(actResult.Item2);
                 }
+                return Ok(actResult.Item2);
             }
             catch (Exception ex)
             {
@@ -77,15 +77,12 @@ namespace CalorieTrackerApi.Controllers
                 _logger.LogError(ex.Message);
                 return StatusCode((int)HttpStatusCode.InternalServerError, message);
             }
-
-            return result;
         }
 
         // PUT api/<TokenController>/5
         [HttpPut]
         public IActionResult Put([FromBody] CreateTokenDto tokenDto)
         {
-            IActionResult result = Ok();
             try
             {
                 var actResult = _tokenService.RefreshUserToken(tokenDto);
@@ -93,6 +90,7 @@ namespace CalorieTrackerApi.Controllers
                 {
                     return BadRequest(actResult.Item2);
                 }
+                return Ok(actResult.Item2);
             }
             catch (Exception ex)
             {
@@ -100,8 +98,6 @@ namespace CalorieTrackerApi.Controllers
                 _logger.LogError(ex.Message);
                 return StatusCode((int)HttpStatusCode.InternalServerError, message);
             }
-
-            return result;
         }
 
         // DELETE api/<TokenController>/5

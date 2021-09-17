@@ -29,7 +29,7 @@ namespace CalorieTrackerApi.Repositories
 
                 context.UserTokens.Add(userToken);
                 context.SaveChanges();
-                return (true, "User Token added");
+                return (true, userToken.Token.ToString());
             }
         }
 
@@ -79,7 +79,7 @@ namespace CalorieTrackerApi.Repositories
 
                 context.UserTokens.Add(userToken);
                 context.SaveChanges();
-                return (true, "User Token added");
+                return (true, userToken.Token.ToString());
             }
         }
 
